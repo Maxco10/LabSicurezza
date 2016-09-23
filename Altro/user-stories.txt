@@ -1,0 +1,49 @@
+Ragazzi in questo file di testo mettiamoci tutte le user-stories che ci vengono in mente.
+Dobbiamo farne 30. Il modello che riporta il libro è:
+Pag. 221-222 del libro:
+###############################################
+Modello:
+Feature: NAME                                   <--Nome della feature 
+as a [kind of stakeholder],                     <--Tipo utenti interessati
+so that [I can achieve some goal]               <--Come si può implementare
+I want to [do some task]                        <--cosa posso fare
+###############################################
+Esempio:
+Feature: add a movie to RottenPotatoes
+as a movie fan
+so that i can share a movie with other movie fans.I want to add a movie to RottenPotatoes
+database
+###############################################
+
+
+1) L'utente può iscriversi a smartBucket con un modulo di registrazione privata.
+2) L'utente può iscriversi a smarBucket con "Accesso con Facebook"
+3) L'utente può recuperare la sua password
+4) l'utente può cancellarsi da smartbucket
+5) l'utente può cancellare la sua richiesta per l'oggetto.
+6) l'utente può creare nuove inserzioni
+7) l'utente può modificare le proprie inserzioni
+8) l'utente può eliminare le proprie inserzioni
+9) l'utente può chiudere una transazione che ha avuto accesso
+10) l'utente può rimettere visibile una inserzione non conclusa con successo
+11) l'utente può cercare annunci per stringa
+12) l'utente può comunicare con dei messaggi di smartbucket per discuterela transazione
+13) l'utente può candidarsi per un oggetto
+14) l'utente può tenere traccia delle donazioni fatte o degli oggetti ottenuti
+15) L'utente può gestire i suoi dati personali:email,nome,sesso,foto,password,email
+16) Nella creazione di un nuovo annuncio l'utente può inserire: Titolo,descrizione,geolocalizzaione e foto
+17) L' utente può essere nominato "Utente admin" da soli utenti già admin
+18) L' utente admin può bannare un utente che viola il regolamento
+19) L'utente admin può notificare le inserzioni che violano il regolamento
+20) L'utente admin può eliminare le inserzioni che violano il regolamento
+21) L'utente può lasciare il feedback all'utente con cui ha interaggito
+22) Gli utenti non iscritti hanno possono solo leggere le inserzioni, senza interragire con esse.
+23) L'utente può cercare annunci per categoria
+24) L'utente può cercare annunci per luogo
+25) Un utente iscritto con facebook drovrà inserire una password in modo da completare anche l'iscrizione privata
+26) L'utente può accedere la sua area personale con il login
+27) L'utente può tenere traccia delle statistiche della sua inserzione(Es. visite)
+28) L'utente loggato può portare alla visione degli admin un inserzione che la ritiene non idonea, attraverso il tasto "Segnala abuso"
+29) L'utente loggato ha la possibilità di Condividere su facebook l'inserzione bersaglio.
+30) L'utente può disconnettere il suo account facebook in ogni momento
+31) L'utente può uscire dalla piattaforma attraverso la funzione di "Logout"
