@@ -1,0 +1,133 @@
+<style>
+      .map {
+        height: 100%;
+      }
+      .controls {
+        background-color: #fff;
+        border-radius: 2px;
+        border: 1px solid transparent;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        box-sizing: border-box;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        height: 29px;
+        margin-left: 17px;
+        margin-top: 10px;
+        outline: none;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 400px;
+      }
+
+      .controls:focus {
+        border-color: #4d90fe;
+      }
+    </style>
+<%= form_for(@announcement) do |f| %>
+  <% if @announcement.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@announcement.errors.count, "error") %> prohibited this announcement from being saved:</h2>
+
+      <ul>
+      <% @announcement.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+ <center>
+          <table width="100%" border="1">
+            <tr>
+              <td colspan="1"><%= f.label "Titolo:" %></td>
+              <td colspan="1"><%= f.text_field :titolo, :required => true %></td>
+               <td style="width: 50%;" rowspan="8" valign="top" id="map">
+              </td>
+            </tr>
+            <tr>
+              <td colspan="1"><%= f.label "Categoria:" %></td>
+              <td colspan="1"><%= f.select :categoria, ['Auto','Accessori auto',
+                                  'Moto', 'Accessori moto',
+                                  'Attrezzature da lavoro', 'Informatica',
+                                  'Fotografia', 'Audio/video',
+                                  'Videogiochi', 'Telefonia',
+                                  'Mobili', 'Casalinghi',
+                                  'Elettrodomestici', 'Abbigliamento',
+                                  'Giardinaggio', 'Tutto per bambini',
+                                  'Animali', 'Cancelleria',
+                                  'Sport', 'Collezionismo'], include_blank: false %>
+</td>
+            </tr>
+            <tr>
+              <td colspan="1"><%= f.label "Foto:" %></td>
+              <td colspan="1"><%= f.file_field :foto, accept: 'image/png,image/gif,image/jpeg' %></td>
+            </tr>
+            <tr>
+              <td><%= f.label "Luogo:" %></td>
+              <td><%= f.text_field :luogo, :required => true %> </td>
+            </tr>
+            <tr>
+              <td colspan="2"><%= f.label "Descrizione:" %></td>
+            </tr>
+            <tr>
+              <td colspan="2"><%= f.text_area :descrizione, :rows => 10, style: 'width:100%;', :required => true %></td>
+            </tr>
+            
+            
+            <tr><td colspan="2">&nbsp;</td></tr>
+            <tr>
+              <td colspan="2" align="center"><%= f.submit "Invia" %> || <%= button_tag "Reset", type: :reset %></td>
+            </tr>
+          </table>
+          </center>
+<% end %>
+    <script>
+      function initMap() {
+        //Posizione di default della mappa
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: -33.8688, lng: 151.2195},
+          zoom: 13
+        });
+        
+        //Campo di input
+        var input = document.getElementById('announcement_luogo');
+
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo('bounds', map);
+
+        var infowindow = new google.maps.InfoWindow();
+        var marker = new google.maps.Marker({
+          map: map
+        });
+        marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+
+        autocomplete.addListener('place_changed', function() {
+          infowindow.close();
+          var place = autocomplete.getPlace();
+          if (!place.geometry) {
+            return;
+          }
+
+          if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+          } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(17);
+          }
+
+          // Imposto la posizione sulla mappa della destinazione cercata
+          marker.setPlace({
+            placeId: place.place_id,
+            location: place.geometry.location
+          });
+          marker.setVisible(true);
+
+          infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + place.formatted_address);
+          document.getElementById('announcement_luogo').value = place.formatted_address;
+          infowindow.open(map, marker);
+        });
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBIKW0xq45fu2dqUZtBMqXps0SrSHJu0c&libraries=places&callback=initMap"async defer></script>

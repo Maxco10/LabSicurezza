@@ -1,43 +1,86 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
-
+<h2>Opzioni</h2>
+<style>
+	table, th, td {
+	    border: 1px solid black;
+	    border-collapse: collapse;
+	}
+	th, td {
+	    padding: 5px;
+	    text-align: centre;
+	}
+</style>
+<center>
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
-  </div>
-
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "off" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
-    <% end %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "off" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
+<%= devise_error_messages! %>
+<table style="width:100%" style="float:centre">
+  <tr>
+    <td>Foto</td>
+    <td>
+    	<% if @user.foto != '' %>
+				<%= image_tag("#{@user.foto}", size: "400") %>
+			<% end%>
+	</td>
+  </tr>
+  <tr>
+  	<div class="field">
+		<td><%= f.label "Modifica nome" %></td>
+		<td><%= f.text_field :nome, autofocus: true %></td>
+	</div>
+  </tr>
+  <tr>
+  	<div class="field">
+		<td><%= f.label "Modifica email" %></td>
+		<td><%= f.email_field :email, autofocus: true %></td>
+	</div>
+  </tr>
+  <tr>
+  		<div class="field">
+		<td><%= f.label :password %> <i>(Non modificare nulla se se non si vuole cambiare password)</i></td>
+		<td>
+			<%= f.password_field :password, autocomplete: "off" %><br/>
+			<% if @minimum_password_length %>
+				<i>La password deve essere di almeno <%= @minimum_password_length %> caratteri</i>
+			<% end %>
+		</td>
+	</div>
+  </tr>
+  <tr>
+  	<div class="field">
+		<td><%= f.label :Riscrivi_la_password %></td>
+		<td><%= f.password_field :password_confirmation, autocomplete: "off" %></td>
+	</div>
+  </tr>
+  <tr>
+  	<td>Seleziona il sesso</td>
+  	<td>M: <%= radio_button("user", "sesso", "M") %> || F: <%= radio_button("user", "sesso", "F") %></td>
+  </tr>
+  <tr>
+  	<td>Modifica foto</td>
+  	<td><%= f.file_field :foto, accept: 'image/png,image/gif,image/jpeg' %></td>
+  </tr>
+  <tr>
+  	<div class="field">
+		<td><%= f.label :current_password %><i>(Inserisci la tua vecchia password per confermare le modifiche)</i></td>
+		<td><%= f.password_field :current_password, autocomplete: "off" %></td>
+	</div>
+  </tr>
+  <tr>
+  	<div class="actions">
+  		<td colspan="2"><%= f.submit "Aggiorna" %></td>
+	</div>
+  </tr>
+</table>
 <% end %>
+</center>
 
-<h3>Cancel my account</h3>
-
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
-
+<% if @minimum_password_length %>
+	<i>La password deve essere di almeno <%= @minimum_password_length %> caratteri</i>
+<% end %>
+		
+<h3>Elimina l'account</h3>
+			
+<p>Sei sicuro? =( <%= button_to "Elimina account", registration_path(resource_name), data: { confirm: "Sei sicuro?" }, method: :delete %></p>
+				
 <%= link_to "Back", :back %>
+			
+			

@@ -1,0 +1,34 @@
+<center><p id="notice"><b><%= notice %></b></p></center>
+
+<div id="top-bar" class="container" >
+    <h2>I Tuoi annunci</h2>
+    <center>
+      <table width="50%" border="0">
+          <tr>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+          </tr>
+          <% @announcements.each do |announcement| %>
+            <tr>
+              <td align="center" valign="tip">
+                <% if (announcement.foto != "")  =%>
+                  <%= image_tag("#{announcement.foto}", :border=>0, size: "100") %>
+                <% else %>
+                  <%= image_tag("Temporanei/avatar", :border=>0, size: "100") %>
+                <% end %>
+              </td>
+              <td valign="top" align="center">
+                </b>[<%= announcement.categoria %>]<br />
+                Creato il: <%= announcement.created_at %><br /><br />
+                <i><%= link_to announcement.titolo, announcement %></i>
+                <br /><br />
+                n° visite: <%= announcement.visite %><br />
+                <%= link_to 'Modifica', edit_announcement_path(announcement) %> || <%= link_to 'Elimina', announcement, method: :delete, data: { confirm: 'Sei sicuro?' } %>
+              </td>
+            </tr>
+            <tr><td colspan="2"><hr></td></tr>
+          <% end %>
+      </table>
+  </center>
+<br>
+

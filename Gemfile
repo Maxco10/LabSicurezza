@@ -1,7 +1,10 @@
 source 'https://rubygems.org'
-
+#Gem per devise
 gem 'devise'
+#Gem per OAuth facebook
 gem 'omniauth-facebook'
+#Gem per Google api
+gem 'geocoder'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5'
@@ -30,6 +33,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Use Unicorn as the app server
 # gem 'unicorn'
+gem 'superfish-rails'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

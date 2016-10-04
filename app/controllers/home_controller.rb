@@ -2,7 +2,10 @@ class HomeController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
+  layout 'application'
   def presentazione
-    @pres = 'Benvenuti su SMARTBUCKET'
+  end
+  
+  def profilo_utente
   end
 end

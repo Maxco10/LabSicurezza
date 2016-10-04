@@ -11,7 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160927141335) do
+ActiveRecord::Schema.define(version: 20160930101012) do
+
+  create_table "announcements", force: :cascade do |t|
+    t.string   "titolo"
+    t.text     "descrizione"
+    t.string   "categoria"
+    t.string   "foto"
+    t.integer  "etichetta",          default: 0, null: false
+    t.integer  "segnalato",          default: 0
+    t.integer  "visite",             default: 0
+    t.integer  "id_proprietario_id",             null: false
+    t.text     "luogo"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.float    "latitude"
+    t.float    "longitude"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

@@ -1,0 +1,56 @@
+<style>
+      #map {
+        height: 70%;
+      }
+</style>
+    
+<p id="notice"><%= notice %></p>
+<p><%= link_to 'Modifica', edit_announcement_path(@announcement) %> | <%= link_to 'Indietro', announcements_path %></p>
+<center>
+<table width="70%" height="70%" border="1">
+  <tr>
+    <td style="width: 50%;"><%= image_tag("#{@announcement.foto}", :border=>0, size: "100") %></td>
+    <td rowspan="2" valign="top"><b><%= @announcement.titolo %></b>
+            <br>
+          <p><%= @announcement.descrizione %></p>
+          <br><br>
+          <p align="center">
+            <%= @announcement.luogo %>
+            <br>
+            [<%= @announcement.categoria %>] || n° visite:  <%= @announcement.visite %> 
+            <br> 
+            pubblicato il <%= @announcement.created_at %>
+            <br>
+            ultima modifica <%= @announcement.updated_at %>
+          </p>
+    </td>
+  </tr>
+  <tr>
+    <td id="map" style="width: 30%;" valign="top"></td>
+  </tr>
+</table>
+</center>
+<script>
+      var map;
+      var vlat = <%= @announcement.latitude %>;
+      var vlng = <%= @announcement.longitude %>;
+      function initMap() {      	
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: vlat, lng: vlng},
+          zoom: 12
+        });
+        var marker = new google.maps.Marker({
+          position: {lat: vlat, lng: vlng},
+          map: map,
+          title: 'Hello World!'
+        });
+        marker.setMap(map);
+      }
+
+</script>
+ <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBIKW0xq45fu2dqUZtBMqXps0SrSHJu0c&callback=initMap"async defer></script>
+
+
+
+
+

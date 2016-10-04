@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  resources :announcements
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks",
+                                       :registrations      => "users/registrations",
+                                       :sessions           => "users/sessions",
+                                       :passwords         => "users/passwords"
+                                      }
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -56,6 +62,5 @@ Rails.application.routes.draw do
   #   end
   
   root 'home#presentazione'
-  
-  
+  get '/profilo', to: 'home#profilo_utente'
 end
