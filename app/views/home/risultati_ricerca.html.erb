@@ -1,4 +1,5 @@
-    <h2>I Tuoi annunci</h2>
+<div id="top-bar" class="container" >
+    <h2>Risultato Ricerca</h2>
     <center>
       <table width="50%" border="0">
           <tr>
@@ -16,11 +17,8 @@
               </td>
               <td valign="top" align="center">
                 </b>[<%= announcement.categoria %>]<br />
-                Creato il: <%= announcement.created_at %><br /><br />
                 <i><%= link_to announcement.titolo, announcement %></i>
                 <br /><br />
-                n° visite: <%= announcement.visite %><br />
-                <%= link_to 'Modifica', edit_announcement_path(announcement) %> || <%= link_to 'Elimina', announcement, method: :delete, data: { confirm: 'Sei sicuro?' } %>
               </td>
             </tr>
             <tr><td colspan="2"><hr></td></tr>
@@ -28,4 +26,3 @@
       </table>
   </center>
 <br>
-

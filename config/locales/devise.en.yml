@@ -3,34 +3,36 @@
 en:
   devise:
     confirmations:
-      confirmed: "Your email address has been successfully confirmed."
-      send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
-      send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
-    failure:
-      already_authenticated: "You are already signed in."
-      inactive: "Your account is not activated yet."
-      invalid: "Invalid %{authentication_keys} or password."
-      locked: "Your account is locked."
-      last_attempt: "You have one more attempt before your account is locked."
-      not_found_in_database: "Invalid %{authentication_keys} or password."
-      timeout: "Your session expired. Please sign in again to continue."
-      unauthenticated: "You need to sign in or sign up before continuing."
-      unconfirmed: "You have to confirm your email address before continuing."
+      confirmed: "Il tuo indirizzo email è stato confermato con successo."
+      send_instructions: "Riceverai fra pochi minuti una mail contenente le istruzioni per svolgere la conferma del tuo indirizzo email"
+      send_paranoid_instructions: "Se la tua email e nel nostro basi di dati,Ricevera fra pochi minuti una mail contenente le istruzioni per svolgere la conferma del tuo indirizzo email"
+    failure:                      
+      already_authenticated: "Sei già stato registrato."
+      inactive: "Il tuo account non è ancora attivo."
+      invalid: ""
+      locked: "Il tuo account è stato bloccato"
+      last_attempt: "È il tuo ultimo tentativo prima che il tuo account si blocchi."
+      not_found_in_database: "%{authentication_keys} o password invalidi."
+      timeout: "La tua sessione à scaduta.Per favore registrati di nuovo per continuare"
+      unauthenticated: "Deve registrarsi oppure accedere prima di continuare"
+      unconfirmed: "Deve confermare l'indirizzo email prima di continuare"
     mailer:
       confirmation_instructions:
-        subject: "Confirmation instructions"
+        subject: "Istruzioni di conferma"
       reset_password_instructions:
-        subject: "Reset password instructions"
+        subject: "Istruzioni per resettare la password"
       unlock_instructions:
-        subject: "Unlock instructions"
+        subject: "Istruzioni per sbloccare"
       password_change:
-        subject: "Password Changed"
+        subject: "Password cambiata"
     omniauth_callbacks:
-      failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
-      success: "Successfully authenticated from %{kind} account."
+      failure: "Non può essere autenticato da %{kind} perchè %{reason}"
+      success: "Auntenticazione avvenuta con successo da %{kind} account."
     passwords:
-      no_token: "You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided."
-      send_instructions: "You will receive an email with instructions on how to reset your password in a few minutes."
+      no_token: "You cant access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided."
+      
+      
+      send_instructions: "Ricevera fra pochi minuti una mail contenente le istruzioni per svolgere la conferma del tuo indirizzo email"
       send_paranoid_instructions: "If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes."
       updated: "Your password has been changed successfully. You are now signed in."
       updated_not_active: "Your password has been changed successfully."
@@ -52,10 +54,10 @@ en:
       unlocked: "Your account has been unlocked successfully. Please sign in to continue."
   errors:
     messages:
-      already_confirmed: "was already confirmed, please try signing in"
-      confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
-      expired: "has expired, please request a new one"
-      not_found: "not found"
+      already_confirmed: "Già confermato, per favore prova ad accedere"
+      confirmation_period_expired: "deve essere confermata entro %{period}, per favore ne richieda una nuova."
+      expired: "È scaduta.Per favore richieda una nuova."
+      not_found: "Non trovato"
       not_locked: "was not locked"
       not_saved:
         one: "1 error prohibited this %{resource} from being saved:"

@@ -1,56 +1,329 @@
-<style>
-      #map {
-        height: 70%;
-      }
-</style>
-    
-<p id="notice"><%= notice %></p>
-<p><%= link_to 'Modifica', edit_announcement_path(@announcement) %> | <%= link_to 'Indietro', announcements_path %></p>
-<center>
-<table width="70%" height="70%" border="1">
-  <tr>
-    <td style="width: 50%;"><%= image_tag("#{@announcement.foto}", :border=>0, size: "100") %></td>
-    <td rowspan="2" valign="top"><b><%= @announcement.titolo %></b>
-            <br>
-          <p><%= @announcement.descrizione %></p>
-          <br><br>
-          <p align="center">
-            <%= @announcement.luogo %>
-            <br>
-            [<%= @announcement.categoria %>] || n° visite:  <%= @announcement.visite %> 
-            <br> 
-            pubblicato il <%= @announcement.created_at %>
-            <br>
-            ultima modifica <%= @announcement.updated_at %>
-          </p>
-    </td>
-  </tr>
-  <tr>
-    <td id="map" style="width: 30%;" valign="top"></td>
-  </tr>
-</table>
-</center>
-<script>
-      var map;
-      var vlat = <%= @announcement.latitude %>;
-      var vlng = <%= @announcement.longitude %>;
-      function initMap() {      	
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: vlat, lng: vlng},
-          zoom: 12
-        });
-        var marker = new google.maps.Marker({
-          position: {lat: vlat, lng: vlng},
-          map: map,
-          title: 'Hello World!'
-        });
-        marker.setMap(map);
-      }
+<!DOCTYPE html>
+<html lang="en">
 
-</script>
- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBIKW0xq45fu2dqUZtBMqXps0SrSHJu0c&callback=initMap"async defer></script>
+<head>
+	<%= favicon_link_tag %>
+		<%= csrf_meta_tags %>
+			<title>SmartBucket</title>
+			<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<meta name="description" content="">
+			<!-- bootstrap -->
+			<%= stylesheet_link_tag    'bootstrap.min', media: 'all', 'data-turbolinks-track' => true %>
+				<%= stylesheet_link_tag    'bootstrap-responsive.min', media: 'all', 'data-turbolinks-track' => true %>
+					<%= stylesheet_link_tag    'themes/css/bootstrappage', media: 'all', 'data-turbolinks-track' => true %>
+
+						<!-- global styles -->
+						<%= stylesheet_link_tag    'themes/css/main', media: 'all', 'data-turbolinks-track' => true %>
+							<%= stylesheet_link_tag    'themes/css/jquery.fancybox', media: 'all', 'data-turbolinks-track' => true %>
+
+								<!-- scripts -->
+								<%= javascript_include_tag "application" %>
+								<%= javascript_include_tag 'themes/js/jquery-1.7.2.min', 'data-turbolinks-track' => true %>
+									<%= javascript_include_tag 'bootstrap.min', 'data-turbolinks-track' => true %>
+										<%= javascript_include_tag 'themes/js/superfish', 'data-turbolinks-track' => true %>
+											<%= javascript_include_tag 'themes/js/jquery.scrolltotop', 'data-turbolinks-track' => true %>
+												<%= javascript_include_tag 'themes/js/jquery.fancybox', 'data-turbolinks-track' => true %>
+</head>
+
+<body>
+
+	<style>
+		#map {
+			height: 300px;
+		}
+	</style>
+
+	<div id="top-bar" class="container">
+		<div class="row">
+			<div class="span4">
+			</div>
+			<div class="span8">
+				<div class="account pull-right">
+					<ul class="user-menu">
+						<% if user_signed_in? %>
+							<li>
+								<%= link_to "#{current_user.email}", edit_user_registration_path %>
+							</li>
+							<li>
+								<%= link_to 'Logout', destroy_user_session_path, :method => :delete %>
+							</li>
+							<% else %>
+								<li>
+									<%= link_to "Registrati", new_user_registration_path %>
+								</li>
+								<li>
+									<%= link_to "Login", new_user_session_path %>
+								</li>
+								<% end %>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="wrapper" class="container">
+		<section class="navbar main-menu">
+			<div class="navbar-inner main-menu">
+				<a class="logo pull-left"><%=link_to image_tag("Logo_smartbucket2.png", :border=>0, :class=>"site_logo"), root_path %></a>
+				<nav id="menu" class="pull-right">
+					<ul>
+						<% if user_signed_in? %>
+							<li>
+								<%= link_to "I tuoi annunci", announcements_path %>
+							</li>
+							<li>
+								<%= link_to 'Nuovo annuncio', new_announcement_path %>
+							</li>
+							<li><a>Messaggi</a></li>
+							<li><a>FAQ</a></li>
+							<% else %>
+								<li><a>FAQ</a></li>
+								<% end %>
+					</ul>
+				</nav>
+			</div>
+		</section>
+
+		<section class="header_text sub">
+			<h4><span>DETTAGLI DEL PRODOTTO</span></h4>
+		</section>
+		<section class="main-content">
+			<div class="row">
+				<div class="span9">
+					<div class="row">
+						<div class="span4">
 
 
+						<%= link_to image_tag("#{@announcement.foto}", :alt => 'PRODOTTO'), image_path("#{@announcement.foto}"), class:"thumbnail", :title => "#{@announcement.titolo}" %>
+							
+								<ul class="thumbnails small">
+									<li class="span1"></li>
+									<li class="span1"></li>
+									<li class="span1"></li>
+									<li class="span1"></li>
+								</ul>
+						</div>
+						<div class="span5">
+							<address>
+									<strong>Nome del prodotto:</strong> <span><%= @announcement.titolo %></span><br>
+									<strong>Categoria:</strong> <span><%= @announcement.categoria %></span><br>
+									<strong>Localizzazione:</strong> <span><%= @announcement.luogo %></span><br>
+									<strong>Publicato il:</strong> <span><%= @announcement.created_at %></span><br>
+									<strong>Ultima modifica:</strong> <span><%= @announcement.updated_at %></span><br>
+									<strong>Numero di visite:</strong> <span><%= @announcement.visite %></span><br>
+								</address>
+								<table height="100%" width="100%" border="1">
+									<td id="map" valign="top">Sto caricando</td>
+								</table>
+						</div>
+						<div class="span5">
+							<form class="form-inline">
+								<p>&nbsp;</p>
+								<button class="btn btn-inverse" type="submit">Prenotati</button>
+							</form>
+						</div>
+					</div>
+					<div class="row">
+						<div class="span9">
+							<ul class="nav nav-tabs" id="myTab">
+								<li class="active"><a href="#home">Descrizione</a></li>
+								<li class=""><a href="#profile">Informazioni addizionali</a></li>
+							</ul>
+							<div class="tab-content">
+								<div class="tab-pane active" id="home">
+									<%= @announcement.descrizione %>
+								</div>
+								<div class="tab-pane" id="profile">
+									<table class="table table-striped shop_attributes">
+										<tbody>
+											<tr class="">
+												<th>Nome del prodotto</th>
+												<td>
+													<%= @announcement.titolo %>
+												</td>
+											</tr>
+											<tr class="alt">
+												<th>Categoria</th>
+												<td>
+													<%= @announcement.categoria %>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="span9">
+							<br>
+							<h4 class="title">
+								<span class="pull-left"><span class="text"><strong>ALTRI</strong> ANNUNCI</span></span>
+								<span class="pull-right">
+										<a class="left button" href="#myCarousel-1" data-slide="prev"></a><a class="right button" href="#myCarousel-1" data-slide="next"></a>
+									</span>
+							</h4>
+							<div id="myCarousel-1" class="carousel slide">
+								<div class="carousel-inner">
+									<div class="active item">
+										<ul class="thumbnails listing-products">
+											<li class="span3">
+												<div class="product-box">
+													<span class="sale_tag"></span>
+													<a href="product_detail.html"><img alt="" src="themes/images/ladies/6.jpg"></a><br/>
+													<a href="product_detail.html" class="title">Wuam ultrices rutrum</a><br/>
+													<a href="#" class="category">Suspendisse aliquet</a>
+													<p class="price">$341</p>
+												</div>
+											</li>
+											<li class="span3">
+												<div class="product-box">
+													<span class="sale_tag"></span>
+													<a href="product_detail.html"><img alt="" src="themes/images/ladies/5.jpg"></a><br/>
+													<a href="product_detail.html" class="title">Fusce id molestie massa</a><br/>
+													<a href="#" class="category">Phasellus consequat</a>
+													<p class="price">$341</p>
+												</div>
+											</li>
+											<li class="span3">
+												<div class="product-box">
+													<a href="product_detail.html"><img alt="" src="themes/images/ladies/4.jpg"></a><br/>
+													<a href="product_detail.html" class="title">Praesent tempor sem</a><br/>
+													<a href="#" class="category">Erat gravida</a>
+													<p class="price">$28</p>
+												</div>
+											</li>
+										</ul>
+									</div>
+									<div class="item">
+										<ul class="thumbnails listing-products">
+											<li class="span3">
+												<div class="product-box">
+													<span class="sale_tag"></span>
+													<a href="product_detail.html"><img alt="" src="themes/images/ladies/1.jpg"></a><br/>
+													<a href="product_detail.html" class="title">Fusce id molestie massa</a><br/>
+													<a href="#" class="category">Phasellus consequat</a>
+													<p class="price">$341</p>
+												</div>
+											</li>
+											<li class="span3">
+												<div class="product-box">
+													<a href="product_detail.html"><img alt="" src="themes/images/ladies/2.jpg"></a><br/>
+													<a href="product_detail.html">Praesent tempor sem</a><br/>
+													<a href="#" class="category">Erat gravida</a>
+													<p class="price">$28</p>
+												</div>
+											</li>
+											<li class="span3">
+												<div class="product-box">
+													<span class="sale_tag"></span>
+													<a href="product_detail.html"><img alt="" src="themes/images/ladies/3.jpg"></a><br/>
+													<a href="product_detail.html" class="title">Wuam ultrices rutrum</a><br/>
+													<a href="#" class="category">Suspendisse aliquet</a>
+													<p class="price">$341</p>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="span3 col">
+					<div class="block">
+						<ul class="nav nav-list">
+							<li class="nav-header">DA DECIDERE</li>
+							<li><a href="products.html">...</a></li>
+							<li><a href="products.html">...</a></li>
+							<li><a href="products.html">...</a></li>
+							<li><a href="products.html">...</a></li>
+							<li><a href="products.html">...</a></li>
+							<li><a href="products.html">...</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section id="footer-bar">
+			<div class="row">
+				<div class="span3">
+					<h4>Navigation</h4>
+					<ul class="nav">
+						<li><a href="./index.html">Homepage</a></li>
+						<li><a href="./about.html">FAQ</a></li>
+						<li><a href="./contact.html">Contattaci</a></li>
+						<li><a href="./register.html">Login</a></li>
+					</ul>
+				</div>
+				<div class="span4">
+					<h4>Il mio account</h4>
+					<ul class="nav">
+						<li><a href="#">Il mio account</a></li>
+						<li><a href="#">I tuoi annunci </a></li>
+						<li><a href="#">Storico ordini</a></li>
+						<li><a href="#">Messaggi</a></li>
+					</ul>
+				</div>
+				<div class="span5">
+					<p class="logo">
+						<%= image_tag("Logo_smartbucket2.png", :border=>0, :class=>"site_logo") %>
+					</p>
+					<p>Non sai come liberarti di vecchi oggetti che non usi più? ma che magari sono ancora utili e ti dispiace buttarli?<br/>Non c'è probelma, utilizza il nostro servizio e dona quelle cose a chi ne ha bisogno grazie a smartbucket!!</p>
+					<br/>
+				</div>
+			</div>
+		</section>
+		<section id="copyright">
+			<span>Copyright 2013 bootstrappage template  All right reserved.</span>
+		</section>
+	</div>
 
+	<script>
+		var map;
+		var vlat = <%= @announcement.latitude %>;
+		var vlng = <%= @announcement.longitude %>;
 
+		function initMap() {
+			map = new google.maps.Map(document.getElementById('map'), {
+				center: {
+					lat: vlat,
+					lng: vlng
+				},
+				zoom: 12
+			});
+			var marker = new google.maps.Marker({
+				position: {
+					lat: vlat,
+					lng: vlng
+				},
+				map: map,
+				title: 'Hello World!'
+			});
+			marker.setMap(map);
+		}
+	</script>
+	<%= javascript_include_tag 'themes/js/common', 'data-turbolinks-track' => true %>
+		<script>
+			$(function() {
+				$('#myTab a:first').tab('show');
+				$('#myTab a').click(function(e) {
+					e.preventDefault();
+					$(this).tab('show');
+				})
+			})
+			$(document).ready(function() {
+				$('.thumbnail').fancybox({
+					openEffect: 'none',
+					closeEffect: 'none'
+				});
 
+				$('#myCarousel-2').carousel({
+					interval: 2500
+				});
+			});
+		</script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBIKW0xq45fu2dqUZtBMqXps0SrSHJu0c&callback=initMap" async defer></script>
+
+</body>
+
+</html>

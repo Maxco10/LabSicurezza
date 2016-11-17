@@ -1,7 +1,6 @@
 class AnnouncementsController < ApplicationController
   before_filter :authenticate_user!
   before_action :set_announcement, only: [:show, :edit, :update, :destroy]
-
   # GET /announcements
   # GET /announcements.json
   def index
@@ -13,6 +12,7 @@ class AnnouncementsController < ApplicationController
   # GET /announcements/1
   # GET /announcements/1.json
   def show
+    render :layout => false
   end
 
   # GET /announcements/new
@@ -22,7 +22,6 @@ class AnnouncementsController < ApplicationController
 
   # GET /announcements/1/edit
   def edit
-    
   end
 
   # POST /announcements
@@ -37,10 +36,10 @@ class AnnouncementsController < ApplicationController
       Rails.logger.debug "#{@announcement.inspect}"
       puts "====================================================="
       estensione = uploaded_io.original_filename.split('.')[-1]
-      File.open(Rails.root.join('app','assets','images','foto_annunci', "annuncio#{@announcement.id}.#{estensione}"), 'wb') do |file|
+      File.open(Rails.root.join('app','assets','images','foto_annunci', "annuncio#{Announcement.last.id+1}.#{estensione}"), 'wb') do |file|
         file.write(uploaded_io.read)
       end
-      @announcement.foto = "foto_annunci/annuncio#{@announcement.id}.#{estensione}"
+      @announcement.foto = "foto_annunci/annuncio#{Announcement.last.id+1}.#{estensione}"
     end
     respond_to do |format|
       if @announcement.save

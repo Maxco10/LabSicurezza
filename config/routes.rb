@@ -63,4 +63,6 @@ Rails.application.routes.draw do
   
   root 'home#presentazione'
   get '/profilo', to: 'home#profilo_utente'
+  post '/cerca' => 'home#risultati_ricerca'
+  get '/cerca_categorie', to: 'home#risultati_ricerca_categorie'
 end
