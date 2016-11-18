@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  titolo: 
+  testo: 
+  mittente_id: 
+  destinatario_id: 
+
+two:
+  titolo: 
+  testo: 
+  mittente_id: 
+  destinatario_id: 

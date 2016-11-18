@@ -22,24 +22,32 @@
 <body>
 
 <div id="top-bar" class="container">
-      <div class="row">
-        <div class="span4">
-        </div>
-        <div class="span8">
-          <div class="account pull-right">
-            <ul class="user-menu">
-              <% if user_signed_in? %>
-                <li><%= link_to "#{current_user.email}", edit_user_registration_path %></li> 
-                <li><%= link_to 'Logout', destroy_user_session_path, :method => :delete%></li>
+    <div class="row">
+      <div class="span4">
+      </div>
+      <div class="span8">
+        <div class="account pull-right">
+          <ul class="user-menu">
+            <% if user_signed_in? %>
+              <li>
+                <%= link_to "#{current_user.email}", edit_user_registration_path %>
+              </li>
+              <li>
+                <%= link_to 'Logout', destroy_user_session_path, :method => :delete%>
+              </li>
               <% else %>
-                <li><%= link_to "Registrati", new_user_registration_path %></li>          
-                <li><%= link_to "Login", new_user_session_path %></li>
-              <% end %>
-            </ul>
-          </div>
+                <li>
+                  <%= link_to "Registrati", new_user_registration_path %>
+                </li>
+                <li>
+                  <%= link_to "Login", new_user_session_path %>
+                </li>
+                <% end %>
+          </ul>
         </div>
       </div>
     </div>
+  </div>
     <div id="wrapper" class="container">
       <section class="navbar main-menu">
         <div class="navbar-inner main-menu">        
@@ -48,7 +56,14 @@
             <ul>
               <% if user_signed_in? %>
                 <li><%= link_to "I tuoi annunci", announcements_path %></li>
-                <li><%= link_to 'Nuovo annuncio', new_announcement_path %></li>                             
+              <li>
+                <%= link_to "Richieste ricevute", bookings_path %>
+              </li>
+              <li>
+                <%= link_to "Richieste inviate", "/richieste_inviate" %>
+              </li>
+                <li><%= link_to 'Nuovo annuncio', new_announcement_path %></li>  
+                
                 <li><a>Messaggi</a></li>
                 <li><a>FAQ</a></li>
               <% else %>

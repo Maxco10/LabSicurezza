@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160930101012) do
+ActiveRecord::Schema.define(version: 20161118082909) do
 
   create_table "announcements", force: :cascade do |t|
     t.string   "titolo"
@@ -28,6 +28,40 @@ ActiveRecord::Schema.define(version: 20160930101012) do
     t.float    "latitude"
     t.float    "longitude"
   end
+
+  create_table "bookings", force: :cascade do |t|
+    t.integer  "annuncio_id"
+    t.integer  "proprietario_id"
+    t.integer  "prenotato_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "bookings", ["annuncio_id"], name: "index_bookings_on_annuncio_id"
+  add_index "bookings", ["prenotato_id"], name: "index_bookings_on_prenotato_id"
+  add_index "bookings", ["proprietario_id"], name: "index_bookings_on_proprietario_id"
+
+  create_table "feedbacks", force: :cascade do |t|
+    t.integer  "voto"
+    t.integer  "proprietario_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "feedbacks", ["proprietario_id"], name: "index_feedbacks_on_proprietario_id"
+
+  create_table "messages", force: :cascade do |t|
+    t.string   "titolo"
+    t.string   "testo"
+    t.integer  "mittente_id"
+    t.integer  "destinatario_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "stato"
+  end
+
+  add_index "messages", ["destinatario_id"], name: "index_messages_on_destinatario_id"
+  add_index "messages", ["mittente_id"], name: "index_messages_on_mittente_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

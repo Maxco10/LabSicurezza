@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   
   
   has_many :announcements
+  has_many :bookings
   
   
   def self.from_omniauth(auth)

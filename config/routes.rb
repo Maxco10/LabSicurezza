@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
+  resources :messages
+  resources :feedbacks
   resources :announcements
+  resources :bookings
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks",
                                        :registrations      => "users/registrations",
                                        :sessions           => "users/sessions",
@@ -65,4 +68,7 @@ Rails.application.routes.draw do
   get '/profilo', to: 'home#profilo_utente'
   post '/cerca' => 'home#risultati_ricerca'
   get '/cerca_categorie', to: 'home#risultati_ricerca_categorie'
+  get '/richieste_inviate', to: 'bookings#richieste_inviate'
+  get '/chiudi_richiesta', to: 'bookings#chiudi_annuncio'
+  get '/messaggi_inviati', to: 'messages#messaggi_inviati'
 end

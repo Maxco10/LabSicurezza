@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Annunci da te richiesti</h1>
+
+<table width="100%" border="1">
+  <thead>
+    <tr>
+      <th>Foto</th>
+      <th>Titolo</th>
+      <th>Proprietario annuncio</th>
+      <th>Prenotazione del</th
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @bookings.each do |booking| %>
+      <tr>
+        <td><%= image_tag("#{Announcement.where("id = ?",booking.annuncio_id).take.foto}", :border=>0, size: "100") %></td>
+        <td><%= Announcement.where("id = ?",booking.annuncio_id).take.titolo %></td>
+        <td><%= User.where("id = ?",booking.proprietario_id).take.nome %></td>
+        <td><%= booking.created_at %></td>
+        <td><%=  link_to 'Messaggia', "/messages/new?destinatario_id=#{booking.proprietario_id}" %></td>
+        <% if( Announcement.where("id = ?",booking.annuncio_id).take.etichetta == 1) %>
+          <td><%= link_to 'Elimina prenotazione', booking, method: :delete, data: { confirm: 'Sei sicuro?' } %></td>
+        <% else %>
+          <td colspan="2"><%=  link_to 'Lascia feedback', "/" %></td>
+        <% end %>      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Booking', new_booking_path %>

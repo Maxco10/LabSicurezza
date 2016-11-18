@@ -59,14 +59,23 @@
               <li>
                 <%= link_to "I tuoi annunci", announcements_path %>
               </li>
-              <li>
-                <%= link_to 'Nuovo annuncio', new_announcement_path %>
+              <li><%= link_to 'Nuovo annuncio', new_announcement_path %></li>
+              <li><a>Richieste</a>
+                <ul>
+                  <li><%= link_to "Richieste inviate", "/richieste_inviate" %></li>
+                  <li><%= link_to "Richieste ricevute", bookings_path %></li>
+                </ul>
               </li>
-              <li><a>Messaggi</a></li>
+              <li><a>Messaggi <%= Message.where(destinatario_id:current_user.id, stato: 0).count %></a>
+                <ul>
+                  <li><%= link_to 'Messaggi ricevuti', messages_path %></li>
+                  <li><%= link_to 'Messaggi inviati', "/messaggi_inviati" %></li>
+                </ul>
+              </li>
               <li><a>FAQ</a></li>
               <% else %>
                 <li><a>FAQ</a></li>
-                <% end %>
+              <% end %>
           </ul>
         </nav>
       </div>

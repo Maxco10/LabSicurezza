@@ -1,16 +1,16 @@
-<div id="top-bar" class="container" >
-  <h2>Password dimenticata?</h2>
-  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-    <%= devise_error_messages! %>
-    <center>
-            <table width="50%" border="0">
-              <tr>
-                <td><%= f.label :email %></td>
-                <td><%= f.email_field :email %></td>
-              </tr>
-                <td colspan="2" align="center"><%= f.submit "Recupera" %> || <%= button_tag "Reset", type: :reset %></td>
-              </tr>
-            </table>
+<h2>Password dimenticata?</h2>
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+<%= devise_error_messages! %>
+<center>
+  <table width="50%" border="0">
+    <tr>
+      <td><%= f.label :email %></td>
+      <td><%= f.email_field :email %></td>
+    </tr>
+    <tr>
+    <td colspan="2" align="center"><%= f.submit "Recupera" %> || <%= button_tag "Reset", type: :reset %></td>
+      </tr>
+    </table>
     </center>
   <% end %>
 </section>

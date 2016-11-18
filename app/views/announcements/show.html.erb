@@ -118,10 +118,21 @@
 								</table>
 						</div>
 						<div class="span5">
-							<form class="form-inline">
-								<p>&nbsp;</p>
-								<button class="btn btn-inverse" type="submit">Prenotati</button>
-							</form>
+							
+						<% if user_signed_in? %>
+								<% if current_user.id != @announcement.id_proprietario_id %>
+									<form class="form-inline" method="POST" action="/bookings">
+									<p>&nbsp;</p>
+									<input type="hidden" value="<%= form_authenticity_token() %>" name="authenticity_token"/>
+									<input type="hidden" name="booking[annuncio_id]" value="<%= @announcement.id %>" />
+									<input type="hidden" name="booking[proprietario_id]" value="<%= @announcement.id_proprietario_id %>" />
+									<input type="hidden" name="booking[prenotato_id]" value="<%= current_user.id %>" />
+									<button class="btn btn-inverse" type="submit">Prenotati</button>
+								</form>
+								<% end %>
+						<% else %>
+							<button class="btn btn-inverse">Devi accedere per prenotarti!</button>
+						<% end %>
 						</div>
 					</div>
 					<div class="row">

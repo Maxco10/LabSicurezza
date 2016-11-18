@@ -527,7 +527,7 @@ section.our_client .row{
 }
 .search_form input{
 	/*background: url(../images/sprites.png) #fff no-repeat 97% 6px;*/
-	color:#fff;
+	color:#222;
 	text-shadow:none;
 	padding-right:25px;	
 	border:1px solid #eee;

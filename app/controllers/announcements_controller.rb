@@ -1,5 +1,5 @@
 class AnnouncementsController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, except: [:show]
   before_action :set_announcement, only: [:show, :edit, :update, :destroy]
   # GET /announcements
   # GET /announcements.json
@@ -18,10 +18,12 @@ class AnnouncementsController < ApplicationController
   # GET /announcements/new
   def new
     @announcement = Announcement.new
+    render layout: false
   end
 
   # GET /announcements/1/edit
   def edit
+    render layout: "per_annunci"
   end
 
   # POST /announcements
