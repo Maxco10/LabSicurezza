@@ -5,11 +5,11 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
   def index  #messaggi ricevuti
-    @messages = Message.where(destinatario_id:current_user.id)
+    @messages = Message.where(destinatario_id:current_user.id).order(created_at: :desc)
   end
   
   def messaggi_inviati  #messaggi inviati
-    @messages = Message.where(mittente_id:current_user.id)
+    @messages = Message.where(mittente_id:current_user.id).order(created_at: :desc)
   end
 
   # GET /messages/1

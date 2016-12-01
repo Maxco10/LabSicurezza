@@ -1,0 +1,104 @@
+
+<section class="header_text sub">
+	<h4><span>Opzioni utente</span></h4>
+</section>
+
+<section class="main-content">			
+	<div class="row">
+		<div class="span6">
+			<h4 class="title"><span class="text"><strong>Opzioni</strong></span></h4>			
+			<%= form_for(:user, :url => modificaUtente_update_path(:user), html: { method: "post", class: "form-stacked" }) do |f| %>
+			<%= f.hidden_field "id", class:"control-label" %>
+				<fieldset>
+					<div class="control-group">
+								<%= f.label "Nome", class:"control-label" %>
+							  <div class="controls">
+							    <%= f.text_field :nome, class:"input-xlarge" %>
+							  </div>
+							</div> <!-- nome -->
+					<div class="control-group">
+								<%= f.label "Modifica email", class:"control-label" %>
+							  <div class="controls">
+							    <%= f.text_field :email, class:"input-xlarge" %>
+							  </div>
+							</div> <!-- email -->
+					<div class="control-group">
+								<%= f.label "Modifica password", class:"control-label" %>
+							  <div class="controls">
+							    <%= f.password_field :password, class:"input-xlarge", autocomplete: "off" %>
+							    <% if @minimum_password_length %>
+										<i>La password deve essere di almeno <%= @minimum_password_length %> caratteri</i>
+									<% end %>
+							  </div>
+							</div> <!-- password -->
+					<div class="control-group">
+								<%= f.label "Sesso", class:"control-label" %>
+							  <div class="controls">
+							  	<div class="radio">
+									  <label><%= radio_button("user", "sesso", "M") %>Maschio</label>
+									</div>
+									<div class="radio">
+									  <label><%= radio_button("user", "sesso", "F") %>Femmina</label>
+									</div>
+							  </div>
+							</div> <!-- sesso -->
+					<div class="control-group">
+							  <label class="control-label">Foto</label>
+				          <div class="btn btn-inverse input-group">
+				            <label class="input-group-btn ">
+				              <span>
+				                Scegli la nuova foto <%= f.file_field :foto, accept: 'image/png,image/gif,image/jpeg', style: "display: none;" %>
+				              </span>
+				          	</label>
+				          <input type="text" class="form-control" readonly>
+				        </div> 
+			</div> <!-- foto -->
+				</fieldset>
+		</div>
+		<div class="span6">
+			<h4 class="title"><span class="text"><strong>Foto</strong></span></h4>
+			<%= link_to image_tag("#{@user.foto}", :alt => 'La sua foto'), image_path("#{@user.foto}"), class:"thumbnail_p", "data-fancybox-group" => "group1", :title => "#{@user.nome}" %>
+		</div>
+  </div>
+  <div class="row">
+  	<div class="span12">
+  		<div class= "control-group">
+  			<div class="actions">
+  				<%= f.submit "Aggiorna",tabindex:"9", class:"btn btn-inverse large", type:"submit", value:"Modifica account","data-turbolinks" =>"false" %> 
+				</div>
+	<% end %>
+			</div>
+  	</div>
+  </div>
+</section>
+
+
+<script>
+  $(function() {
+
+  // We can attach the `fileselect` event to all file inputs on the page
+  $(document).on('change', ':file', function() {
+    var input = $(this),
+        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+    input.trigger('fileselect', [numFiles, label]);
+  });
+
+  // We can watch for our custom `fileselect` event like this
+  $(document).ready( function() {
+      $(':file').on('fileselect', function(event, numFiles, label) {
+
+          var input = $(this).parents('.input-group').find(':text'),
+              log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+          if( input.length ) {
+              input.val(log);
+          } else {
+              if( log ) alert(log);
+          }
+
+      });
+  });
+  
+});
+</script>

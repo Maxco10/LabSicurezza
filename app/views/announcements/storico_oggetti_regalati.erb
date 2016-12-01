@@ -1,0 +1,36 @@
+<section class="header_text sub">
+				<h4><span>Storico dei tuoi annunci(<%= @announcements.count %>)</span></h4>
+			</section>
+			<section class="main-content">		
+				<div class="row">						
+					<div class="span12">								
+						<ul class="thumbnails listing-products">
+						
+						<% if @announcements == nil %>
+    				<section class="header_text sub">
+							<h4><span>Non hai creato nessun annuncio </span></h4>
+						</section>
+						<% else %>
+							<% @announcements.each do |announcement| %>
+								<li class="span3">
+									<div class="product-box">
+										<span class="sale_tag"></span>			
+											<% if (announcement.foto != "")  =%>
+												<p><%= link_to image_tag("#{announcement.foto}", class: "foto_annunci_normalizzate"), announcement %></p>
+											<% else %>
+												<p><%= link_to image_tag("Temporanei/avatar"), announcement %></p>
+											<% end %>
+											<%= link_to announcement.titolo, announcement, class: "title" %><br/>
+											<a class="category">[<%= announcement.categoria %>]</a></br>
+									</div>
+								</li>
+							<% end %>
+						</ul>	
+						<hr>
+						<div class="pagination pagination-small pagination-centered">
+							<%= will_paginate @announcements, :previous_label => 'Prec', :next_label => 'Succ', renderer: BootstrapPagination::Rails %>
+						</div>
+          <% end %>
+					</div>
+				</div>
+			</section>

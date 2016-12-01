@@ -5,6 +5,8 @@ gem 'devise'
 gem 'omniauth-facebook'
 #Gem per Google api
 gem 'geocoder'
+#Gem per will_paginate
+gem 'will_paginate'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5'
@@ -50,4 +52,6 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
+
+gem 'will_paginate-bootstrap'
 

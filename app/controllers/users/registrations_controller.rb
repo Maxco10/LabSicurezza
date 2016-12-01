@@ -15,7 +15,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
         
     end
     def edit
-        super
+        
+        render layout: "per_annunci"
     end
     def update
         super

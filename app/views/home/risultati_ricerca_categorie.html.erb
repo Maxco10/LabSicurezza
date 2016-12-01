@@ -1,28 +1,38 @@
-<div id="top-bar" class="container" >
-    <h2>Risultato ricerca</h2>
-    <center>
-      <table width="50%" border="0">
-          <tr>
-            <th>&nbsp;</th>
-            <th>&nbsp;</th>
-          </tr>
-          <% @categoria.each do |announcement| %>
-            <tr>
-              <td align="center" valign="tip">
-                <% if (announcement.foto != "")  =%>
-                  <%= image_tag("#{announcement.foto}", :border=>0, size: "100") %>
-                <% else %>
-                  <%= image_tag("Temporanei/avatar", :border=>0, size: "100") %>
-                <% end %>
-              </td>
-              <td valign="top" align="center">
-                </b>[<%= announcement.categoria %>]<br />
-                <i><%= link_to announcement.titolo, announcement %></i>
-                <br /><br />
-              </td>
-            </tr>
-            <tr><td colspan="2"><hr></td></tr>
+			<section class="header_text sub">
+				<h4><span>Risultato Ricerca</span></h4>
+			</section>
+			<section class="main-content">		
+				<div class="row">						
+					<div class="span12">								
+						<ul class="thumbnails listing-products">
+						
+						<% if @categoria == nil %>
+    				<section class="header_text sub">
+							<h4><span>La ricerca non ha trovato corrispondenze </span></h4>
+						</section>
+						<% else %>
+							<% @categoria.each do |announcement| %>
+								<li class="span3">
+									<div class="product-box">
+										<span class="sale_tag"></span>												
+											<% if (announcement.foto != "")  =%>
+												<p><%= link_to image_tag("#{announcement.foto}", class: "foto_annunci_normalizzate"), announcement, "data-turbolinks" =>"false"  %></p>
+											<% else %>
+												<p><%= link_to image_tag("Temporanei/avatar"), announcement, "data-turbolinks" =>"false"  %></p>
+											<% end %>
+											<%= link_to announcement.titolo, announcement, class: "title", "data-turbolinks" =>"false"  %><br/>
+											<a class="category">[<%= announcement.categoria %>]</a>
+									</div>
+								</li>
+							<% end %>
+						</ul>	
+						<hr>
+						<div class="pagination pagination-small pagination-centered">
+							<div class="pagination pagination-small pagination-centered">
+							<%= will_paginate @categoria, :previous_label => 'Prec', :next_label => 'Succ', renderer: BootstrapPagination::Rails %>
+						</div>
+						</div>
           <% end %>
-      </table>
-  </center>
-<br>
+					</div>
+				</div>
+			</section>

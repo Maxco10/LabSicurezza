@@ -1,31 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
+
+<head >
+
+
 	<%= favicon_link_tag %>
 		<%= csrf_meta_tags %>
 			<title>SmartBucket</title>
 			<meta charset="utf-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			<meta name="description" content="">
+
+
+	
+
+
+
 			<!-- bootstrap -->
-			<%= stylesheet_link_tag    'bootstrap.min', media: 'all', 'data-turbolinks-track' => true %>
-				<%= stylesheet_link_tag    'bootstrap-responsive.min', media: 'all', 'data-turbolinks-track' => true %>
-					<%= stylesheet_link_tag    'themes/css/bootstrappage', media: 'all', 'data-turbolinks-track' => true %>
+			<%= stylesheet_link_tag    'bootstrap.min', media: 'all', 'data-turbolinks-track' => false %>
+				<%= stylesheet_link_tag    'bootstrap-responsive.min', media: 'all', 'data-turbolinks-track' => false %>
+					<%= stylesheet_link_tag    'themes/css/bootstrappage', media: 'all', 'data-turbolinks-track' => false %>
+					<%= stylesheet_link_tag    'css_personalizzato', media: 'all', 'data-turbolinks-track' => false %>
 
 						<!-- global styles -->
-						<%= stylesheet_link_tag    'themes/css/main', media: 'all', 'data-turbolinks-track' => true %>
-							<%= stylesheet_link_tag    'themes/css/jquery.fancybox', media: 'all', 'data-turbolinks-track' => true %>
+						<%= stylesheet_link_tag    'themes/css/main', media: 'all', 'data-turbolinks-track' => false %>
+							<%= stylesheet_link_tag    'themes/css/jquery.fancybox', media: 'all', 'data-turbolinks-track' => false %>
 
 								<!-- scripts -->
 								<%= javascript_include_tag "application" %>
-								<%= javascript_include_tag 'themes/js/jquery-1.7.2.min', 'data-turbolinks-track' => true %>
+								<%= javascript_include_tag 'themes/js/jquery-1.7.2.min', 'data-turbolinks-track' => false %>
 									<%= javascript_include_tag 'bootstrap.min', 'data-turbolinks-track' => true %>
 										<%= javascript_include_tag 'themes/js/superfish', 'data-turbolinks-track' => true %>
-											<%= javascript_include_tag 'themes/js/jquery.scrolltotop', 'data-turbolinks-track' => true %>
-												<%= javascript_include_tag 'themes/js/jquery.fancybox', 'data-turbolinks-track' => true %>
+											<%= javascript_include_tag 'themes/js/jquery.scrolltotop', 'data-turbolinks-track' => false %>
+												<%= javascript_include_tag 'themes/js/jquery.fancybox', 'data-turbolinks-track' => false %>
 </head>
     <body>		
-		<div id="top-bar" class="container">
+  <div id="top-bar" class="container">
     <div class="row">
       <div class="span4">
       </div>
@@ -34,17 +44,17 @@
           <ul class="user-menu">
             <% if user_signed_in? %>
               <li>
-                <%= link_to "#{current_user.email}", edit_user_registration_path %>
+                <%= link_to "#{current_user.email}", edit_user_registration_path, "data-turbolinks" =>"false" %>
               </li>
               <li>
-                <%= link_to 'Logout', destroy_user_session_path, :method => :delete%>
+                <%= link_to 'Logout', destroy_user_session_path, :method => :delete, "data-turbolinks" =>"false"%>
               </li>
               <% else %>
                 <li>
-                  <%= link_to "Registrati", new_user_registration_path %>
+                  <%= link_to "Registrati", new_user_registration_path, "data-turbolinks" =>"false" %>
                 </li>
                 <li>
-                  <%= link_to "Login", new_user_session_path %>
+                  <%= link_to "Login", new_user_session_path, "data-turbolinks" =>"false" %>
                 </li>
                 <% end %>
           </ul>
@@ -52,30 +62,47 @@
       </div>
     </div>
   </div>
-		<div id="wrapper" class="container">
-			<section class="navbar main-menu">
+  <div id="wrapper" class="container">
+    <section class="navbar main-menu">
       <div class="navbar-inner main-menu">
-        <a class="logo pull-left"><%=link_to image_tag("Logo_smartbucket2.png", :border=>0, :class=>"site_logo"), root_path %></a>
+        <a class="logo pull-left"><%=link_to image_tag("Logo_smartbucket2.png", :border=>0, :class=>"site_logo", "data-turbolinks" =>"false"), root_path %></a>
         <nav id="menu" class="pull-right">
           <ul>
             <% if user_signed_in? %>
               <li>
-                <%= link_to "I tuoi annunci", announcements_path %>
+                <a>Lista annunci</span></a>
+                <ul>
+                  <li><%= link_to "I tuoi annunci", announcements_path , "data-turbolinks" =>"false" %></li>
+                   <li><%= link_to "I tuoi annunci chiusi", miostorico_path , "data-turbolinks" =>"false" %></li>
+                </ul>
               </li>
+              <li><%= link_to 'Nuovo annuncio', new_announcement_path, "data-turbolinks" =>"false" %></li>
+              <li><a>Richieste</a>
+                <ul>
+                  <li><%= link_to "Richieste inviate", "/richieste_inviate", "data-turbolinks" =>"false" %></li>
+                  <li><%= link_to "Richieste ricevute", bookings_path, "data-turbolinks" =>"false" %></li>
+                </ul>
+              </li>
+              <li><a>Messaggi <span class="badge"><%= Message.where(destinatario_id:current_user.id, stato: 0).count %></span></a>
+                <ul>
+                  <li><%= link_to 'Messaggi ricevuti', messages_path, "data-turbolinks" =>"false" %></li>
+                  <li><%= link_to 'Messaggi inviati', "/messaggi_inviati", "data-turbolinks" =>"false" %></li>
+                </ul>
+              </li>
+              <% if(current_user.tipo_utente == 1) %>
               <li>
-                <%= link_to "Richieste ricevute", bookings_path %>
+                <a>Funzioni admin</span></a>
+                <ul>
+                  <li><%= link_to 'Lista utenti', "/listaUtenti", "data-turbolinks" =>"false" %></li>
+                  <li><%= link_to 'Lista annunci', "/listaAnnunci", "data-turbolinks" =>"false" %></li>
+                  <li><%= link_to 'Annunci segnalati', "/annunciSegnalati", "data-turbolinks" =>"false" %></li>
+                  <li><%= link_to 'Lista prenotazioni', "/listaPrenotazioni", "data-turbolinks" => "false" %></li>
+                </ul>
               </li>
-              <li>
-                <%= link_to "Richieste inviate", "/richieste_inviate" %>
-              </li>
-              <li>
-                <%= link_to 'Nuovo annuncio', new_announcement_path %>
-              </li>
-              <li><li><%= link_to 'Messaggi', messages_path %></li></li>
-              <li><a>FAQ</a></li>
+              <% end %>
               <% else %>
                 <li><a>FAQ</a></li>
-                <% end %>
+              <% end %>
           </ul>
         </nav>
       </div>
@@ -87,21 +114,20 @@
       <section id="footer-bar">
         <div class="row">
           <div class="span3">
-            <h4>Navigation</h4>
+            <h4>Naviga</h4>
             <ul class="nav">
-              <li><a href="./index.html">Homepage</a></li>
-              <li><a href="./about.html">FAQ</a></li>
-              <li><a href="./contact.html">Contattaci</a></li>
-              <li><a href="./register.html">Login</a></li>
+              
+              <li><%= link_to "Homepage", root_path, "data-turbolinks" =>"false" %></li>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">Contattaci</a></li>
             </ul>
           </div>
           <div class="span4">
             <h4>Il mio account</h4>
             <ul class="nav">
-              <li><a href="#">Il mio account</a></li>
-              <li><a href="#">I tuoi annunci </a></li>
-              <li><a href="#">Storico ordini</a></li>
-              <li><a href="#">Messaggi</a></li>
+              <li><%= link_to "Il mio account", edit_user_registration_path, "data-turbolinks" =>"false" %></li>
+              <li><%= link_to "I tuoi annunci", announcements_path, "data-turbolinks" =>"false" %></li>
+              <li><%= link_to "Richieste inviate", "/richieste_inviate", "data-turbolinks" =>"false" %></li>
             </ul>
           </div>
           <div class="span5">
@@ -114,10 +140,10 @@
         </div>
       </section>
       <section id="copyright">
-        <span>Copyright 2013 bootstrappage template  All right reserved.</span>
+        <span>Copyright 2016  All right reserved.</span>
       </section>
 		</div>
-  <%= javascript_include_tag 'themes/js/common', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'themes/js/common', 'data-turbolinks-track' => false %>
 		<script>
 			$(document).ready(function() {
 				$('#checkout').click(function (e) {

@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
   
   has_many :announcements
   has_many :bookings
+  has_many :feedbacks
+  
   
   
   def self.from_omniauth(auth)

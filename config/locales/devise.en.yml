@@ -9,7 +9,7 @@ en:
     failure:                      
       already_authenticated: "Sei già stato registrato."
       inactive: "Il tuo account non è ancora attivo."
-      invalid: ""
+      invalid: "Errore nei campi inseriti"
       locked: "Il tuo account è stato bloccato"
       last_attempt: "È il tuo ultimo tentativo prima che il tuo account si blocchi."
       not_found_in_database: "%{authentication_keys} o password invalidi."
@@ -35,7 +35,7 @@ en:
       updated: "La tua password è stata cambiata con successo. Ora sei loggato."
       updated_not_active: "La tua password è stata cambiata con successo."
     registrations:
-      destroyed: "Arrivederci! Il tuo account è stato cancellato con succesoo.Speriamo di rivederti presto."
+      destroyed: "Arrivederci! Il tuo account è stato cancellato con successo.Speriamo di rivederti presto."
       signed_up: "Benvenuto! Sei stato registrato. con successo"
       signed_up_but_inactive: "Sei stato registrato con successo,Comunque non puoi accedere con il tuo account perchè non è ancora attivo."
       signed_up_but_locked: "Sei stato registrato con successo. Comunque non puoi accedere con il tuo account perchè  è  bloccato."
@@ -58,5 +58,5 @@ en:
       not_found: "Non trovato"
       not_locked: "Non è stato bloccato"
       not_saved:
-        one: "1 errore è stato proibito %{resource} di essere salvato:"
-        other: "%{count} errori proibiti questo %{resource} di essere salvato:"
+        one: "Si verificato un errore per %{resource}:"
+        other: "Si sono verificati %{count} errori per %{resource}:"

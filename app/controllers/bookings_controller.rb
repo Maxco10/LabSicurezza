@@ -5,11 +5,11 @@ class BookingsController < ApplicationController
   # GET /bookings
   # GET /bookings.json
   def index #i tuoi annunci richiesti
-    @bookings = Booking.where("proprietario_id = ?",current_user)
+    @bookings = Booking.where("proprietario_id = ?",current_user).order(created_at: :desc)
   end
   
   def richieste_inviate
-        @bookings = Booking.where("prenotato_id = ?",current_user)
+        @bookings = Booking.where("prenotato_id = ?",current_user).order(created_at: :desc)
   end
 
   # GET /bookings/1
@@ -74,7 +74,7 @@ class BookingsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
+   
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_booking
@@ -85,4 +85,5 @@ class BookingsController < ApplicationController
     def booking_params
       params.require(:booking).permit(:annuncio_id, :proprietario_id, :prenotato_id)
     end
+    
 end

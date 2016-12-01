@@ -1,0 +1,43 @@
+<h1>Lista annunci segnalati di SmartBucket</h1>
+<center>
+<table  border="1" >
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Foto</th>
+      <th>Titolo</th>
+      <th>Id proprietario</th>
+      <th>Categoria</th>
+      <th>Stato</th>
+      <th>Visite</th>
+      <th>Luogo</th>
+      <th colspan="3">Azioni</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @announcements.each do |announcements| %>
+      <tr>
+        <td><%= announcements.id %></td>
+        <td><% if (announcements.foto != "")  =%>
+						  <p><%= link_to image_tag("#{announcements.foto}", width: 100), "/" %></p>
+						<% else %>
+							<p><%= link_to image_tag("Temporanei/avatar", width: 100), "/" %></p>
+						<% end %></td>
+        <td><%= announcements.titolo %></td>
+        <td><%= announcements.id_proprietario_id %></td>
+        <td><%= announcements.categoria %></td>
+        <td><% if(announcements.etichetta == 0) %><font color="green">Visibile</font><% elsif(announcements.etichetta == 1) %><font color="orange">Prenotato</font<% else %><font color="red">Chiuso</font<% end %></td>
+        <td><%= announcements.visite %></td>
+        <td><%= announcements.luogo %></td>
+        <td><a title="<%= announcements.descrizione %>">Descrizione</a></td>
+        <td><%= link_to "Modifica", "/modificaAnnuncio_show?id=#{announcements.id}" %> </td>        
+        <td><%= link_to "Chiudi", "/chiudiAnnuncio?id=#{announcements.id}" %> </td>
+        <td><%= link_to "Togli da segnalato", "/togliSegnalato?id=#{announcements.id}" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+</center>
+

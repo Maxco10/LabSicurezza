@@ -10,16 +10,15 @@
       </ul>
     </div>
   <% end %>
-
   <div class="field">
     <%= f.label :voto %><br>
-    <%= f.number_field :voto %>
-  </div>
-  <div class="field">
-    <%= f.label :proprietario_id %><br>
-    <%= f.text_field :proprietario_id %>
-  </div>
+    <%= f.select :voto, ['1','2','3','4','5'], include_blank: false %>
+    
+  </div><p>stai lasiando il feedback per l utente <%= User.where("id = ?",params[:utente]).take.nome %></p>
+  <%= f.hidden_field :proprietario_id, :value => params[:utente] %>
+  <%= f.hidden_field :annuncio_id, :value => params[:annuncio] %>
+  <%= f.hidden_field :booking_id, :value => params[:booking] %>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit  %>
   </div>
 <% end %>

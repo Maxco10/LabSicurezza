@@ -1,40 +1,56 @@
-<h2>
-  Log in</h2>
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <center>
-    <table width="50%" border="0">
-      <tr>
-        <td>
-          <%= f.label :email %>
-        </td>
-        <td>
-          <%= f.email_field :email %>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <%= f.label :password %>
-        </td>
-        <td>
-          <%= f.password_field :password, autocomplete: "off" %>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2" align="center">
-          <%= f.submit "Accedi" %> ||
-            <%= button_tag "Reset", type: :reset %>
-        </td>
-      </tr>
-    </table>
-  </center>
-  <% end %>
-    <%- if devise_mapping.omniauthable? %>
-      <%- resource_class.omniauth_providers.each do |provider| %>
-        <%= button_to "Login con Facebook", omniauth_authorize_path(resource_name, provider) %>
-          <% end -%>
-            <% end -%>
-              <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
-                <%= link_to "Password dimenticata?", new_password_path(resource_name), style: "color: black;" %><br />
-                  <% end -%>
-                    </section>
 
+			<section class="header_text sub">
+				<h4><span>Login</span></h4>
+				<% if flash[:alert] %>
+          <div class="alert alert-alert"><strong><%= flash[:alert] %></strong></div>
+ <% end %>
+ <% if flash[:notice] %>
+          <p class="alert"><%= flash[:notice] %></p>
+ <% end %>
+			</section>			
+			<section class="main-content">				
+				<div class="row">
+					<div class="span3">					
+					</div>	
+					<div class="span6">
+					<center>
+							<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      
+  								<input type="hidden" name="next" value="/">
+  								<fieldset>
+  									<div class="control-group">
+  										<label class="control-label">Email</label>
+  										<div class="controls">
+  										  <%= f.email_field :email , placeholder: "Inserisci la tua email", id: "username", class: "input-xlarge" %>
+  										</div>
+  									</div>
+  									<div class="control-group">
+  										<label class="control-label">Password</label>
+  										<div class="controls">
+  										  <%= f.password_field :password, autocomplete: "off", placeholder: "Inserisci la tua password", id: "username", class: "input-xlarge"  %>
+  										</div>
+  									</div>
+  									<div class="control-group">
+  										<%= f.submit "Accedi", tabindex:"3", class: "btn btn-inverse large" %> || <%= button_tag "Reset", type: :reset, tabindex:"3", class: "btn btn-inverse large" %>
+                        <h4><span>Oppure</span></h4>
+                      <%- if devise_mapping.omniauthable? %>
+                        <%- resource_class.omniauth_providers.each do |provider| %>
+                          <%= link_to "Login con Facebook", omniauth_authorize_path(resource_name, provider), tabindex:"3", class: "btn btn-inverse large" %>
+                        <% end -%>
+                      <% end -%>
+  										<hr>
+  										<p class="reset">
+  										  <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+                          <%= link_to "Password dimenticata?", new_password_path(resource_name), tabindex:"4" %><br />
+                        <% end -%>
+                      </p>
+  									</div>
+  								</fieldset>
+  							</form>
+							<% end %>
+						</center>			
+					</div>
+					<div class="span3">					
+					</div>				
+				</div>
+			</section>

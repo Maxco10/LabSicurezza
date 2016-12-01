@@ -1,104 +1,31 @@
-<html>
-<head>
-  <title>SmartBucket</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="">
-  <%= favicon_link_tag %>
-  <%= javascript_include_tag "application" %>
-  <%= stylesheet_link_tag    'bootstrap.min', media: 'all', 'data-turbolinks-track' => true %>
-  <%= stylesheet_link_tag    'bootstrap-responsive.min', media: 'all', 'data-turbolinks-track' => true %>
-  <%= stylesheet_link_tag    'themes/css/bootstrappage', media: 'all', 'data-turbolinks-track' => true %>
-  <%= stylesheet_link_tag    'themes/css/flexslider', media: 'all', 'data-turbolinks-track' => true %>
-  <%= stylesheet_link_tag    'themes/css/main', media: 'all', 'data-turbolinks-track' => true %>
-
-  <%= javascript_include_tag 'themes/js/jquery-1.7.2.min', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'bootstrap.min', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'themes/js/superfish', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'themes/js/jquery.scrolltotop', 'data-turbolinks-track' => true %>
-  
-  <%= csrf_meta_tags %>
-</head>
-<body>
-
-<div id="top-bar" class="container">
-    <div class="row">
-      <div class="span4">
-      </div>
-      <div class="span8">
-        <div class="account pull-right">
-          <ul class="user-menu">
-            <% if user_signed_in? %>
-              <li>
-                <%= link_to "#{current_user.email}", edit_user_registration_path %>
-              </li>
-              <li>
-                <%= link_to 'Logout', destroy_user_session_path, :method => :delete%>
-              </li>
-              <% else %>
-                <li>
-                  <%= link_to "Registrati", new_user_registration_path %>
-                </li>
-                <li>
-                  <%= link_to "Login", new_user_session_path %>
-                </li>
-                <% end %>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-    <div id="wrapper" class="container">
-      <section class="navbar main-menu">
-        <div class="navbar-inner main-menu">        
-          <a class="logo pull-left"><%=link_to image_tag("Logo_smartbucket2.png", :border=>0, :class=>"site_logo"), root_path %></a>
-          <nav id="menu" class="pull-right">
-            <ul>
-              <% if user_signed_in? %>
-                <li><%= link_to "I tuoi annunci", announcements_path %></li>
-              <li>
-                <%= link_to "Richieste ricevute", bookings_path %>
-              </li>
-              <li>
-                <%= link_to "Richieste inviate", "/richieste_inviate" %>
-              </li>
-                <li><%= link_to 'Nuovo annuncio', new_announcement_path %></li>  
-                
-                <li><a>Messaggi</a></li>
-                <li><a>FAQ</a></li>
-              <% else %>
-                <li><a>FAQ</a></li>
-              <% end %>
-            </ul>
-          </nav>
-        </div>
-      </section>
-      <section  class="homepage-slider" id="home-slider" >
-
-
-
-<div class="flexslider">
-	<ul class="slides">
-		<li>
-			<%= image_tag("HomeSlide/img1.jpg", :border=>0) %>
-				<div class="intro">
-					<h1>Smartbucket</h1>
-					<p><span>Dona ciò che non ti serve</span></p>
-					<p><span>Cerca ciò di cui hai bisogno</span></p>
-				</div>
-		</li>
-		<li>
-			<%= image_tag("themes/images/carousel/banner-2.jpg", :border=>0) %>
-				<div class="intro">
-					<h1>Smartbucket</h1>
-					<p><span>Dona</span></p>
-					<p><span>Trova</span></p>
-				</div>
-		</li>
-	</ul>
-</div>
+<section class="homepage-slider" id="home-slider">
+	<div class="flexslider">
+		<ul class="slides">
+			<li>
+				<%= image_tag("HomeSlide/img1.jpg", :border=>0) %>
+					<div class="intro">
+						<h1>Smartbucket</h1>
+						<p><span>Dona ciò che non ti serve</span></p>
+						<p><span>Cerca ciò di cui hai bisogno</span></p>
+					</div>
+			</li>
+			<li>
+				<%= image_tag("themes/images/carousel/banner-2.jpg", :border=>0) %>
+					<div class="intro">
+						<h1>Smartbucket</h1>
+						<p><span>Dona</span></p>
+						<p><span>Trova</span></p>
+					</div>
+			</li>
+		</ul>
+	</div>
 </section>
 <section class="header_text">
+	<% if notice != nil %>
+		<div class="alert alert-success">
+		<strong><%= notice %></strong>
+	</div>
+<%end%>
 	Non sai come liberarti di vecchi oggetti che non usi più? ma che magari sono ancora utili e ti dispiace buttarli?
 	<br/>Non c'è probelma, utilizza il nostro servizio e dona quelle cose a chi ne ha bisogno grazie a smartbucket!!
 </section>
@@ -108,249 +35,234 @@
 			<div class="row">
 				<div class="span12">
 					<h4 class="title">
-						<span class="pull-left"><span class="text"><span class="line">Cerca </span></span></span>
+						<span class="pull-left"><span class="text"><span class="line">Cerca </span></span>
+						</span>
 					</h4>
-					<div class="span4">
-          				<form method="post" class="search_form" action="/cerca">
-          					<table width="100%">
-          						<td><input type="text" name="testo_cercato" Placeholder="es. Armadio"></td>
-          						<td>
-          							<select name="categoria_cercata">
-          								<option value="">Seleziona</option>
-										<option value="Auto">Auto</option>
-										<option value="Accessori auto">Accessori auto</option>
-										<option value="Moto">Moto</option>
-										<option value="Accessori moto">Accessori moto</option>
-										<option value="Attrezzatura da lavoro">Attrezzatura da lavoro</option>
-										<option value="Informatica">Informatica</option>
-										<option value="Fotografia">Fotografia</option>
-										<option value="Audio/video">Audio/video</option>
-										<option value="Videogiochi">Videogiochi</option>
-										<option value="Telefonia">Telefonia</option>
-										<option value="Mobili">Mobili</option>
-										<option value="Casalinghi">Casalinghi</option>
-										<option value="Elettrodomestici">Elettrodomestici</option>
-										<option value="Abbigliamento">Abbigliamento</option>
-										<option value="Giardinaggio">Giardinaggio</option>
-										<option value="Tutto per bambini">Tutto per bambini</option>
-										<option value="Animali">Animali</option>
-										<option value="Cancelleria">Cancelleria</option>
-										<option value="Sport">Sport</option>
-										<option value="Collezionismo">Collezionismo</option>
-									</select>
-								</td>
-								<td><input type="text" name="luogo_cercato" Placeholder="es. Roma"></td>
-								<td><input type="submit" value="Cerca"></td>
-          					</table>
-          				</form>
-        			</div>
+					<table>
+						<tr>
+							<form method="get" class="form-inline" action="/cerca">
+								<td style="padding-bottom: 17px;"><div class="form-group">
+									<label for="titolo">Titolo</label>
+									<input name="testo_cercato" type="text" class="form-control" id="titolo" placeholder="Es. armadio">
+							</div></td>
+								<td style="padding-bottom: 17px;"<div class="form-group">
+									<label for="titolo">Categoria</label>
+									<select name="categoria_cercata" class="form-control" id="titolo">
+	          					<option value="">Seleziona</option>
+											<option value="Auto">Auto</option>
+											<option value="Accessori auto">Accessori auto</option>
+											<option value="Moto">Moto</option>
+											<option value="Accessori moto">Accessori moto</option>
+											<option value="Attrezzature da lavoro">Attrezzature da lavoro</option>
+											<option value="Informatica">Informatica</option>
+											<option value="Fotografia">Fotografia</option>
+											<option value="Audio/video">Audio/video</option>
+											<option value="Videogiochi">Videogiochi</option>
+											<option value="Telefonia">Telefonia</option>
+											<option value="Mobili">Mobili</option>
+											<option value="Casalinghi">Casalinghi</option>
+											<option value="Elettrodomestici">Elettrodomestici</option>
+											<option value="Abbigliamento">Abbigliamento</option>
+											<option value="Giardinaggio">Giardinaggio</option>
+											<option value="Tutto per bambini">Tutto per bambini</option>
+											<option value="Animali">Animali</option>
+											<option value="Cancelleria">Cancelleria</option>
+											<option value="Sport">Sport</option>
+											<option value="Collezionismo">Collezionismo</option>
+										</select>
+								</div></td>
+								<td style="padding-bottom: 17px;"<div class="form-group">
+									<label for="luogo">Luogo</label>
+									<input name="luogo_cercato" type="text" class="form-control" id="luogo" placeholder="es. Roma">
+								</div></td>
+								<td><button type="submit" value="Cerca" class="btn btn-inverse large"  tabindex:"9">Cerca</button></td>
+							</form>
+						</tr>
+					</table>
 				</div>
 			</div>
-
-	<div class="row">
-		<div class="span12">
 			<div class="row">
 				<div class="span12">
-					<h4 class="title">
-						<span class="pull-left"><span class="text"><span class="line">Cerca per <strong>categorie</strong></span></span>
-						</span>
-						<span class="pull-right">
+					<div class="row">
+						<div class="span12">
+							<h4 class="title">
+								<span class="pull-left"><span class="text"><span class="line">Cerca per <strong>categorie</strong></span></span>
+								</span>
+								<span class="pull-right">
 										<a class="left button" href="#myCarousel" data-slide="prev"></a><a class="right button" href="#myCarousel" data-slide="next"></a>
 									</span>
-					</h4>
-					<div id="myCarousel" class="myCarousel carousel slide">
-						<div class="carousel-inner">
-							<div class="active item">
-								<ul class="thumbnails">
-									<li class="span3">
-										<div class="product-box">
-											<span class="sale_tag"></span>
-											<p>
-											<h2> <%= link_to "Motori", '/cerca_categorie?categoria_bersaglio=motori' %></h2>
-											</p>
-											<%= image_tag("Temporanei/auto.png", :border => 0, :width => 60) %>
-										</div>
-									</li>
-									<li class="span3">
-										<div class="product-box">
-											<span class="sale_tag"></span>
-											<p>
-												<h2> <%= link_to "Casa e Persone", '/cerca_categorie?categoria_bersaglio=case_persone' %></h2>
-											</p>
-											<%= image_tag("Temporanei/mobil.png", :border => 0, :width => 60) %>
-										</div>
-									</li>
-									<li class="span3">
-										<div class="product-box">
-											<span class="sale_tag"></span>
-											<p>
-												<h2> <%= link_to "Elettrodomestici", '/cerca_categorie?categoria_bersaglio=elettrodomestici' %></h2>
-											</p>
-											<%= image_tag("Temporanei/elettrodomestic.png", :border => 0, :width => 60) %>
-										</div>
-									</li>
-									<li class="span3">
-										<div class="product-box">
-											<span class="sale_tag"></span>
-											<p>
-												<h2> <%= link_to "Attrezzatura", '/cerca_categorie?categoria_bersaglio=attrezzatura' %></h2>
-												</a>
-											</p>
-											<%= image_tag("Temporanei/martello.jpg", :border => 0, :width => 60) %>
-										</div>
-									</li>
-								</ul>
-							</div>
-							<div class="item">
-								<ul class="thumbnails">
-									<li class="span3">
-										<div class="product-box">
-											<span class="sale_tag"></span>
-											<p>
-												<h2> <%= link_to "Informatica", '/cerca_categorie?categoria_bersaglio=informatica' %></h2>
-											</p>
-											<%= image_tag("Temporanei/computer1.png", :border => 0, :width => 60) %>
-										</div>
-									</li>
-									<li class="span3">
-										<div class="product-box">
-											<span class="sale_tag"></span>
-											<p>
-												<h2> <%= link_to "Abbigliamento", '/cerca_categorie?categoria_bersaglio=abbigliamento' %></h2>
-											</p>
-											<%= image_tag("Temporanei/vestiti.png", :border => 0, :width => 60) %>
-										</div>
-									</li>
-									<li class="span3">
-										<div class="product-box">
-											<span class="sale_tag"></span>
-											<p>
-												<h2> <%= link_to "Telefonia", '/cerca_categorie?categoria_bersaglio=telefonia' %></h2>
-												</a>
-											</p>
-											<%= image_tag("Temporanei/mobile.png", :border => 0, :width => 60) %>
-										</div>
-									</li>
-									<li class="span3">
-										<div class="product-box">
-											<span class="sale_tag"></span>
-											<p>
-												<h2> <%= link_to "Elettronica", '/cerca_categorie?categoria_bersaglio=elettronica' %></h2>
-											</p>
-											<%= image_tag("Temporanei/elettronica.png", :border => 0, :width => 60) %>
-										</div>
-									</li>
-								</ul>
+							</h4>
+							<div id="myCarousel" class="myCarousel carousel slide">
+								<div class="carousel-inner">
+									<div class="active item">
+										<ul class="thumbnails">
+											<li class="span3">
+												<div class="product-box">
+													<span class="sale_tag"></span>
+													<p>
+														<h2>
+															<%= link_to "Motori", '/cerca_categorie?categoria_bersaglio=motori', "data-turbolinks" =>"false"  %>
+														</h2>
+													</p>
+													<%= image_tag("Temporanei/auto.png", :border => 0, :width => 60) %>
+												</div>
+											</li>
+											<li class="span3">
+												<div class="product-box">
+													<span class="sale_tag"></span>
+													<p>
+														<h2>
+															<%= link_to "Casa e Persone", '/cerca_categorie?categoria_bersaglio=case_persone', "data-turbolinks" =>"false"  %>
+														</h2>
+													</p>
+													<%= image_tag("Temporanei/mobil.png", :border => 0, :width => 60) %>
+												</div>
+											</li>
+											<li class="span3">
+												<div class="product-box">
+													<span class="sale_tag"></span>
+													<p>
+														<h2>
+															<%= link_to "Elettrodomestici", '/cerca_categorie?categoria_bersaglio=elettrodomestici', "data-turbolinks" =>"false"  %>
+														</h2>
+													</p>
+													<%= image_tag("Temporanei/elettrodomestic.png", :border => 0, :width => 60) %>
+												</div>
+											</li>
+											<li class="span3">
+												<div class="product-box">
+													<span class="sale_tag"></span>
+													<p>
+														<h2>
+															<%= link_to "Attrezzatura", '/cerca_categorie?categoria_bersaglio=attrezzatura', "data-turbolinks" =>"false"  %>
+														</h2>
+														</a>
+													</p>
+													<%= image_tag("Temporanei/martello.png", :border => 0, :width => 60) %>
+												</div>
+											</li>
+										</ul>
+									</div>
+									<div class="item">
+										<ul class="thumbnails">
+											<li class="span3">
+												<div class="product-box">
+													<span class="sale_tag"></span>
+													<p>
+														<h2>
+															<%= link_to "Informatica", '/cerca_categorie?categoria_bersaglio=informatica', "data-turbolinks" =>"false"  %>
+														</h2>
+													</p>
+													<%= image_tag("Temporanei/computer1.png", :border => 0, :width => 60) %>
+												</div>
+											</li>
+											<li class="span3">
+												<div class="product-box">
+													<span class="sale_tag"></span>
+													<p>
+														<h2>
+															<%= link_to "Abbigliamento", '/cerca_categorie?categoria_bersaglio=abbigliamento', "data-turbolinks" =>"false"  %>
+														</h2>
+													</p>
+													<%= image_tag("Temporanei/vestiti.png", :border => 0, :width => 60) %>
+												</div>
+											</li>
+											<li class="span3">
+												<div class="product-box">
+													<span class="sale_tag"></span>
+													<p>
+														<h2>
+															<%= link_to "Telefonia", '/cerca_categorie?categoria_bersaglio=telefonia', "data-turbolinks" =>"false"  %>
+														</h2>
+														</a>
+													</p>
+													<%= image_tag("Temporanei/mobile.png", :border => 0, :width => 60) %>
+												</div>
+											</li>
+											<li class="span3">
+												<div class="product-box">
+													<span class="sale_tag"></span>
+													<p>
+														<h2>
+															<%= link_to "Elettronica", '/cerca_categorie?categoria_bersaglio=elettronica', "data-turbolinks" =>"false"  %>
+														</h2>
+													</p>
+													<%= image_tag("Temporanei/elettronica.png", :border => 0, :width => 60) %>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-			<br/>
-			<div class="row">
-				<div class="span12">
-					<h4 class="title">
-						<span class="pull-left"><span class="text"><span class="line">Latest <strong>Products</strong></span></span>
-						</span>
-						<span class="pull-right">
+					<br/>
+					<div class="row">
+						
+						
+						<div class="span12">
+							<h4 class="title">
+								<span class="pull-left">
+							<span class="text">
+								<span class="line">Ultimi <strong>Annunci</strong></span>
+								</span>
+								</span>
+								<span class="pull-right">
 										<a class="left button" href="#myCarousel-2" data-slide="prev"></a><a class="right button" href="#myCarousel-2" data-slide="next"></a>
-									</span>
-					</h4>
-					<div id="myCarousel-2" class="myCarousel carousel slide">
-						<div class="carousel-inner">
-							<div class="active item">
-								<ul class="thumbnails">
-									.
-									<li class="span3">
-										<div class="product-box">
-											<p>
-												<a href="product_detail.html">
-													<%= image_tag("themes/images/cloth/bootstrap-women-ware1.jpg") %>
-												</a>
-											</p>
-											<a href="product_detail.html" class="title">Quis nostrud exerci tation</a><br/>
-											<a href="products.html" class="category">Quis nostrud</a>
-											<p class="price">$17.55</p>
-										</div>
-									</li>
-								.
-									.
-								</ul>
-							</div>
-							<div class="item">
-								<ul class="thumbnails">
-									<li class="span3">
-										<div class="product-box">
-											<p>
-												<a href="product_detail.html">
-													<%= image_tag("themes/images/cloth/bootstrap-women-ware1.jpg") %>
-												</a>
-											</p>
-											<a href="product_detail.html" class="title">Know exactly</a><br/>
-											<a href="products.html" class="category">Quis nostrud</a>
-											<p class="price">$45.50</p>
-										</div>
-									</li>
-								.
-								.
-								</ul>
+						</span>
+							</h4>
+							<div id="myCarousel-2" class="myCarousel carousel slide">
+								<div class="carousel-inner">
+									<div class="active item">
+										<ul class="thumbnails">
+											<% Announcement.where("etichetta = 0").order(created_at: :desc).limit(4).each do |announcement| %>
+												<li class="span3">
+													<div class="product-box">
+														<span class="sale_tag"></span>
+															<% if (announcement.foto != "")  =%>
+																<p><%= link_to image_tag("#{announcement.foto}", class: "foto_annunci_normalizzate"), announcement, "data-turbolinks" =>"false"  %></p>
+															<% else %>
+																<p><%= link_to image_tag("Temporanei/avatar"), announcement, "data-turbolinks" =>"false"  %></p>
+															<% end %>
+														</p>
+														<%= link_to announcement.titolo, announcement, class: "title", "data-turbolinks" =>"false"  %><br/>
+														<a class="category">[<%= announcement.categoria %>]</a>
+													</div>
+												</li>
+											<% end %>
+										</ul>
+									</div>
+									<div class="item">
+										<ul class="thumbnails">
+											<% Announcement.where("etichetta = 0").order(created_at: :desc).limit(4).offset(4).each do |announcement| %>
+												<li class="span3">
+													<div class="product-box">
+														<span class="sale_tag"></span>
+															<% if (announcement.foto != "")  =%>
+																<p><%= link_to image_tag("#{announcement.foto}", class: "foto_annunci_normalizzate"), announcement, "data-turbolinks" =>"false"  %></p>
+															<% else %>
+																<p><%= link_to image_tag("Temporanei/avatar"), announcement, "data-turbolinks" =>"false"  %></p>
+															<% end %>
+														<%= link_to announcement.titolo, announcement, class: "title", "data-turbolinks" =>"false"  %><br/>
+														<a class="category">[<%= announcement.categoria %>]</a>
+													</div>
+												</li>
+												<% end %>
+										</ul>
+									</div>
+								</div>
 							</div>
 						</div>
+						
+						
+						
+						
+						
+						
+						
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
-      </section>
-      <section id="footer-bar">
-        <div class="row">
-          <div class="span3">
-            <h4>Navigation</h4>
-            <ul class="nav">
-              <li><a href="./index.html">Homepage</a></li>  
-              <li><a href="./about.html">FAQ</a></li>
-              <li><a href="./contact.html">Contattaci</a></li>
-              <li><a href="./register.html">Login</a></li>           
-            </ul>         
-          </div>
-          <div class="span4">
-            <h4>Il mio account</h4>
-            <ul class="nav">
-              <li><a href="#">Il mio account</a></li>
-              <li><a href="#">I tuoi annunci </a></li>
-              <li><a href="#">Storico ordini</a></li>
-              <li><a href="#">Messaggi</a></li>
-            </ul>
-          </div>
-          <div class="span5">
-            <p class="logo">
-                <%= image_tag("Logo_smartbucket2.png", :border=>0, :class=>"site_logo") %></p>
-            <p>Non sai come liberarti di vecchi oggetti che non usi più? ma che magari sono ancora utili e ti dispiace buttarli?<br/>Non c'è probelma, utilizza il nostro servizio e dona quelle cose a chi ne ha bisogno grazie a smartbucket!!</p>
-            <br/>
-          </div>          
-        </div>  
-      </section>
-      <section id="copyright">
-        <span>Copyright 2013 bootstrappage template  All right reserved.</span>
-      </section>
-    </div>
-
-    <%= javascript_include_tag 'themes/js/common', 'data-turbolinks-track' => true %>
-    <%= javascript_include_tag 'themes/js/jquery.flexslider-min', 'data-turbolinks-track' => true %>
-		<script type="text/javascript">
-			$(function() {
-				$(document).ready(function() {
-					$('.flexslider').flexslider({
-						animation: "fade",
-						slideshowSpeed: 4000,
-						animationSpeed: 600,
-						controlNav: false,
-						directionNav: true,
-						controlsContainer: ".flex-container" // the container that holds the flexslider
-					});
-				});
-			});
-		</script>
-</body>
-</html>

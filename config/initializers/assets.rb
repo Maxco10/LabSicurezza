@@ -18,6 +18,7 @@ Rails.application.config.assets.precompile += %w( bootstrap-responsive.css )
 Rails.application.config.assets.precompile += %w( bootstrap.css )
 Rails.application.config.assets.precompile += %w( bootstrap-responsive.min.css )
 Rails.application.config.assets.precompile += %w( bootstrap.min.css )
+Rails.application.config.assets.precompile += %w( css_personalizzato.css )
 
 Rails.application.config.assets.precompile += %w( themes/css/bootstrappage.css )
 Rails.application.config.assets.precompile += %w( themes/css/flexslider.css )

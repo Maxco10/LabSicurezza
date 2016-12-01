@@ -1,68 +1,61 @@
-<h2>Registrazione</h2>
-<section class="header_text">
-  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-    <%= devise_error_messages! %>
-      <center>
-        <table width="50%" border="0">
-          <tr>
-            <td>
-              <%= f.label :nome %>
-            </td>
-            <td>
-              <%= f.text_field :nome %>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <%= f.label :email %>
-            </td>
-            <td>
-              <%= f.email_field :email %>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <%= f.label :password %>
-            </td>
-            <td>
-              <% if @minimum_password_length %>
-                <em>(Minimo <%= @minimum_password_length %> caratteri)</em>
-                <% end %><br />
-                  <%= f.password_field :password, autocomplete: "off" %>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <%= f.label "Conferma password" %>
-            </td>
-            <td>
-              <%= f.password_field :password_confirmation, autocomplete: "off" %>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <%= f.label :sesso %>
-            </td>
-            <td>M:
-              <%= radio_button("user", "sesso", "M") %> || F:
-                <%= radio_button("user", "sesso", "F") %>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="2">&nbsp;</td>
-          </tr>
-          <tr>
-            <td colspan="2" align="center">
-              <%= f.submit "Registrati" %> ||
-                <%= button_tag "Reset", type: :reset %>
-            </td>
-          </tr>
-        </table>
-      </center>
-      <% end %>
-        <%- if devise_mapping.omniauthable? %>
-          <%- resource_class.omniauth_providers.each do |provider| %>
-            <%= button_to "Login con Facebook", omniauth_authorize_path(resource_name, provider) %>
-              <% end -%>
-                <% end -%>
-</section>
+			<section class="header_text sub">
+				<h4><span>Registrazione</span></h4>
+				<%= devise_error_messages! %>
+			</section>			
+			<section class="main-content">
+				<div class="row">
+					<center>
+						<div class="span12">
+							  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), class:"form-stacked") do |f| %>
+  								<fieldset>
+  									<div class="control-group">
+  										<label class="control-label">Nome</label>
+  										<div class="controls">
+  											<%= f.text_field :nome, placeholder:"Inserisci il tuo nome", class:"input-xlarge"  %>
+  										</div>
+  									</div>
+  									<div class="control-group">
+  										<label class="control-label">Email</label>
+  										<div class="controls">
+  											<%= f.email_field :email, placeholder:"Inserisci la tua email", class:"input-xlarge" %>
+  										</div>
+  									</div>
+  									<div class="control-group">
+  										<label class="control-label">Password</label>
+  										<div class="controls">
+                        <% if @minimum_password_length %>
+                          (Minimo <%= @minimum_password_length %> caratteri)  
+                        <% end %><br />
+                        <%= f.password_field :password, autocomplete: "off", placeholder:"Inserisci la password", class: "input-xlarge" %>
+  										</div>
+  									</div>
+  									<div class="control-group">
+  										<label class="control-label">Conferma password</label>
+  										<div class="controls">
+                        <%= f.password_field :password_confirmation, autocomplete: "off", placeholder:"Conferma la password", class: "input-xlarge"  %>
+  										</div>
+  									</div>
+  									<div class="control-group">
+  										<label class="control-label">Sesso</label>
+  										<div class="controls">
+                        M: <%= radio_button("user", "sesso", "M") %> || F: <%= radio_button("user", "sesso", "F") %>
+  										</div>
+  									</div>
+  									<hr>
+  									<div class="actions">
+  									  <%= f.submit "Crea il tuo account", tabindex:"9", class:"btn btn-inverse large" %> || <%= button_tag "Reset", type: :reset, tabindex:"9", class:"btn btn-inverse large" %>
+  									</div>
+  									<h4><span>Oppure</span></h4>
+  									<div class="actions">
+  									  <%- if devise_mapping.omniauthable? %>
+                        <%- resource_class.omniauth_providers.each do |provider| %>
+                          <%= link_to "Login con Facebook", omniauth_authorize_path(resource_name, provider), tabindex:"9", class:"btn btn-inverse large"  %>
+                        <% end -%>
+                      <% end -%>
+  									</div>
+  								</fieldset>
+							<% end %>
+						</div>
+					</center>
+				</div>
+			</section>

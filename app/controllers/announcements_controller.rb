@@ -1,24 +1,38 @@
 class AnnouncementsController < ApplicationController
   before_filter :authenticate_user!, except: [:show]
   before_action :set_announcement, only: [:show, :edit, :update, :destroy]
+  Numero_risultati_per_pagina = 20
+  
   # GET /announcements
   # GET /announcements.json
   def index
     #Solo gli annunci del proprietario e aperti vengono visualizzati.
     @user = current_user
-    @announcements = Announcement.where(id_proprietario_id: @user.id, etichetta: 0)
+    @announcements = Announcement.where(id_proprietario_id: @user.id, etichetta: 0).paginate(page: params[:page],per_page: Numero_risultati_per_pagina)
+    render layout: "per_annunci"
   end
 
   # GET /announcements/1
   # GET /announcements/1.json
   def show
-    render :layout => false
+    @announcement = Announcement.find(params[:id])
+    Announcement.where("id = ?",@announcement.id).limit(1).update_all("visite = #{@announcement.visite+1}")
+    render layout: "per_annunci"
+  end
+  
+  def segnala_annuncio
+    @announcement = Announcement.find(params[:id])
+    Announcement.where("id = ?",@announcement.id).limit(1).update_all("segnalato = 1")
+    respond_to do |format|
+      format.html { redirect_to root_url, notice: 'Annuncio segnalato!' }
+      format.json { head :no_content }
+    end
   end
 
   # GET /announcements/new
   def new
     @announcement = Announcement.new
-    render layout: false
+    render layout: "per_annunci"
   end
 
   # GET /announcements/1/edit
@@ -90,6 +104,9 @@ class AnnouncementsController < ApplicationController
       format.html { redirect_to announcements_url, notice: 'Annuncio cancellato!.' }
       format.json { head :no_content }
     end
+  end
+  def storico_oggetti_regalati
+      @announcements=Announcement.where("etichetta=2 AND id_proprietario_id='#{current_user.id}'").paginate(page: params[:page],per_page: Numero_risultati_per_pagina)
   end
 
   private

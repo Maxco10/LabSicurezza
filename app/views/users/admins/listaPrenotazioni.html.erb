@@ -1,0 +1,28 @@
+<h1>Lista prenotazioni di SmartBucket</h1>
+<center>
+<table  border="1" >
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Annuncio id</th>
+      <th>Proprietario id</th>
+      <th>Prenotato id</th>
+      <th>Creato il</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @bookings.each do |bookings| %>
+      <tr>
+        <td><%= bookings.id %></td>
+        <td><%= bookings.annuncio_id %></td>
+        <td><%= bookings.proprietario_id %></td>
+        <td><%= bookings.prenotato_id %></td>
+        <td><%= bookings.created_at %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+</center>
+

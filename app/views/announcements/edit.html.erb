@@ -8,11 +8,8 @@
 
 <section class="main-content">			
 				<div class="row">
-					<div class="span7">					
+					<div class="span6">					
 						<h4 class="title"><span class="text"><strong>Modifica</strong> annuncio</span></h4>
-						<!-- <section class="header_text">
-	                        <%= render 'form' %>
-                        </section> -->
 
 
   <%= form_for(@announcement, html: {class: "form-stacked"}) do |f| %>
@@ -50,10 +47,18 @@
 			  </div>
 			</div>
 			<div class="control-group">
-				<%= f.label "Foto", class:"control-label" %>
-			  <div class="controls">
-			    <%= f.file_field :foto, accept: 'image/png,image/gif,image/jpeg', class:"input-xlarge"  %>
-			  </div>
+			  
+			  
+			  <label class="control-label">Foto</label>
+                <div class="btn btn-inverse input-group">
+                  <label class="input-group-btn ">
+                    <span>
+                        Scegli la foto <%= f.file_field :foto, accept: 'image/png,image/gif,image/jpeg', style: "display: none;" %>
+                    </span>
+                  </label>
+                  <input type="text" class="form-control" readonly>
+                </div> 
+			  
 			</div>
 			<div class="control-group">
 				<%= f.label "Luogo", class:"control-label" %>
@@ -64,7 +69,7 @@
 			<div class="control-group">
 				<%= f.label "Descrizione", class:"control-label" %>
 			  <div class="controls">
-			    <%= f.text_area :descrizione, :rows => 5, style: 'width:50%;',class:"control-label", :required => true %>
+			    <%= f.text_area :descrizione, :rows => 5, style: 'width:90%;',class:"control-label", :required => true %>
 			  </div>
 			</div>
 			<div class="actions">
@@ -76,9 +81,134 @@
   <% end %>
 
 					</div>
-				<div class="span5">					
-						<h4 class="title"><span class="text"><strong>MAPPA</strong></span></h4>
-						<%= render 'mappa' %>
-					</div>
-				</div>
-			</section>	
+				<div class="span6">
+					<h4 class="title"><span class="text"><strong>Foto</strong></span></h4>
+					<%= link_to image_tag("#{@announcement.foto}", :alt => 'PRODOTTO'), image_path("#{@announcement.foto}"), class:"thumbnail_p", "data-fancybox-group" => "group1", :title => "#{@announcement.titolo}" %>
+        </div>
+      </div>
+    <div class="row">
+			<div class="span12">
+					<h4 class="title"><span class="text"><strong>MAPPA</strong></span></h4>
+    			<table height="90%" width="100%" class="controlss" style="margin-bottom: 10px;">
+            <td valign="top" id="map" ><%= image_tag("map-loader.gif") %></td>
+          </table>
+        </div>
+      </div>
+	</div>
+</section>
+			
+<script>
+		var vlat = <% if @announcement.latitude == nil %> 41.8919 <% else %> <%= @announcement.latitude %> <% end %>;
+		var vlng = <% if @announcement.longitude == nil %> 41.8919 <% else %> <%= @announcement.longitude %> <% end %>;
+      function initMap() {
+        //Posizione di default della mappa
+        map = new google.maps.Map(document.getElementById('map'), {
+				center: {
+					lat: vlat,
+					lng: vlng
+				},
+				zoom: 12
+			});
+			var marker = new google.maps.Marker({
+				position: {
+					lat: vlat,
+					lng: vlng
+				},
+				map: map,
+				title: 'Posizione attuale'
+			});
+			marker.setMap(map);
+		
+        
+        //Campo di input
+        var input = document.getElementById('announcement_luogo');
+
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo('bounds', map);
+
+        var infowindow = new google.maps.InfoWindow();
+        var marker = new google.maps.Marker({
+          map: map
+        });
+        marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+
+        autocomplete.addListener('place_changed', function() {
+          infowindow.close();
+          var place = autocomplete.getPlace();
+          if (!place.geometry) {
+            return;
+          }
+
+          if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+          } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(17);
+          }
+
+          // Imposto la posizione sulla mappa della destinazione cercata
+          marker.setPlace({
+            placeId: place.place_id,
+            location: place.geometry.location
+          });
+          marker.setVisible(true);
+
+          infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + place.formatted_address);
+          document.getElementById('announcement_luogo').value = place.formatted_address;
+          infowindow.open(map, marker);
+        });
+      }
+    </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBIKW0xq45fu2dqUZtBMqXps0SrSHJu0c&libraries=places&callback=initMap"async defer></script>
+
+
+<script>
+			$(function() {
+				$('#myTab a:first').tab('show');
+				$('#myTab a').click(function(e) {
+					e.preventDefault();
+					$(this).tab('show');
+				})
+			})
+			$(document).ready(function() {
+				$('.thumbnail_p').fancybox({
+					openEffect: 'none',
+					closeEffect: 'none'
+				});
+
+				$('#myCarousel-2').carousel({
+					interval: 2500
+				});
+			});
+		</script>
+<script>
+  $(function() {
+
+  // We can attach the `fileselect` event to all file inputs on the page
+  $(document).on('change', ':file', function() {
+    var input = $(this),
+        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+    input.trigger('fileselect', [numFiles, label]);
+  });
+
+  // We can watch for our custom `fileselect` event like this
+  $(document).ready( function() {
+      $(':file').on('fileselect', function(event, numFiles, label) {
+
+          var input = $(this).parents('.input-group').find(':text'),
+              log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+          if( input.length ) {
+              input.val(log);
+          } else {
+              if( log ) alert(log);
+          }
+
+      });
+  });
+  
+});
+</script>

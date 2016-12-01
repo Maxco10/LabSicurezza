@@ -526,11 +526,10 @@ section.our_client .row{
 	margin-bottom:0;
 }
 .search_form input{
-	/*background: url(../images/sprites.png) #fff no-repeat 97% 6px;*/
-	color:#222;
+	color:rgb(255, 255, 255);
 	text-shadow:none;
-	padding-right:25px;	
-	border:1px solid #eee;
+	/*padding-right:25px;	
+	border:1px solid #eee;*/
 }
 #homeTab{
 	min-height:210px;

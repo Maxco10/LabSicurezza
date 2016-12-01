@@ -1,86 +1,140 @@
-<h2>Opzioni</h2>
-<style>
-	table, th, td {
-	    border: 1px solid black;
-	    border-collapse: collapse;
-	}
-	th, td {
-	    padding: 5px;
-	    text-align: centre;
-	}
-</style>
-<center>
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-<%= devise_error_messages! %>
-<table style="width:100%" style="float:centre">
-  <tr>
-    <td>Foto</td>
-    <td>
-    	<% if @user.foto != '' %>
-				<%= image_tag("#{@user.foto}", size: "400") %>
-			<% end%>
-	</td>
-  </tr>
-  <tr>
-  	<div class="field">
-		<td><%= f.label "Modifica nome" %></td>
-		<td><%= f.text_field :nome, autofocus: true %></td>
-	</div>
-  </tr>
-  <tr>
-  	<div class="field">
-		<td><%= f.label "Modifica email" %></td>
-		<td><%= f.email_field :email, autofocus: true %></td>
-	</div>
-  </tr>
-  <tr>
-  		<div class="field">
-		<td><%= f.label :password %> <i>(Non modificare nulla se se non si vuole cambiare password)</i></td>
-		<td>
-			<%= f.password_field :password, autocomplete: "off" %><br/>
-			<% if @minimum_password_length %>
-				<i>La password deve essere di almeno <%= @minimum_password_length %> caratteri</i>
-			<% end %>
-		</td>
-	</div>
-  </tr>
-  <tr>
-  	<div class="field">
-		<td><%= f.label :Riscrivi_la_password %></td>
-		<td><%= f.password_field :password_confirmation, autocomplete: "off" %></td>
-	</div>
-  </tr>
-  <tr>
-  	<td>Seleziona il sesso</td>
-  	<td>M: <%= radio_button("user", "sesso", "M") %> || F: <%= radio_button("user", "sesso", "F") %></td>
-  </tr>
-  <tr>
-  	<td>Modifica foto</td>
-  	<td><%= f.file_field :foto, accept: 'image/png,image/gif,image/jpeg' %></td>
-  </tr>
-  <tr>
-  	<div class="field">
-		<td><%= f.label :current_password %><i>(Inserisci la tua vecchia password per confermare le modifiche)</i></td>
-		<td><%= f.password_field :current_password, autocomplete: "off" %></td>
-	</div>
-  </tr>
-  <tr>
-  	<div class="actions">
-  		<td colspan="2"><%= f.submit "Aggiorna" %></td>
-	</div>
-  </tr>
-</table>
-<% end %>
-</center>
 
-<% if @minimum_password_length %>
-	<i>La password deve essere di almeno <%= @minimum_password_length %> caratteri</i>
-<% end %>
-		
-<h3>Elimina l'account</h3>
-			
-<p>Sei sicuro? =( <%= button_to "Elimina account", registration_path(resource_name), data: { confirm: "Sei sicuro?" }, method: :delete %></p>
-				
-<%= link_to "Back", :back %>
-			
-			
+<section class="header_text sub">
+	<h4><span>Opzioni utente</span></h4>
+</section>	
+<section class="main-content">			
+	<div class="row">
+		<div class="span6">
+			<h4 class="title"><span class="text"><strong>Opzioni</strong></span></h4>			
+			<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "form-stacked" }) do |f| %>
+
+				<% if devise_error_messages! != "" %>
+					<div class="alert alert-error">
+							<strong><%= devise_error_messages! %></strong>
+					</div>
+				<%end%>
+				<fieldset>
+					<div class="control-group">
+								<%= f.label "Nome", class:"control-label" %>
+							  <div class="controls">
+							    <%= f.text_field :nome, class:"input-xlarge", :required => true %>
+							  </div>
+							</div> <!-- nome -->
+					<div class="control-group">
+								<%= f.label "Modifica email", class:"control-label" %>
+							  <div class="controls">
+							    <%= f.text_field :email, class:"input-xlarge", :required => true %>
+							  </div>
+							</div> <!-- email -->
+					<div class="control-group">
+								<%= f.label "Modifica password", class:"control-label" %>
+							  <div class="controls">
+							    <%= f.password_field :password, class:"input-xlarge", autocomplete: "off" %>
+							    <% if @minimum_password_length %>
+										<i>La password deve essere di almeno <%= @minimum_password_length %> caratteri</i>
+									<% end %>
+							  </div>
+							</div> <!-- password -->
+					<div class="control-group">
+								<%= f.label "Conferma password", class:"control-label" %>
+							  <div class="controls">
+							    <%= f.password_field :password_confirmation, class:"input-xlarge", autocomplete: "off" %>
+							  </div>
+							</div> <!-- conferma pas -->
+					<div class="control-group">
+								<%= f.label "Sesso", class:"control-label" %>
+							  <div class="controls">
+							  	<div class="radio">
+									  <label><%= radio_button("user", "sesso", "M") %>Maschio</label>
+									</div>
+									<div class="radio">
+									  <label><%= radio_button("user", "sesso", "F") %>Femmina</label>
+									</div>
+							  </div>
+							</div> <!-- sesso -->
+					<div class="control-group">
+							  <label class="control-label">Foto</label>
+				          <div class="btn btn-inverse input-group">
+				            <label class="input-group-btn ">
+				              <span>
+				                Scegli la nuova foto <%= f.file_field :foto, accept: 'image/png,image/gif,image/jpeg', style: "display: none;" %>
+				              </span>
+				          	</label>
+				          <input type="text" class="form-control" readonly>
+				        </div> 
+			</div> <!-- foto -->
+					<div class="control-group">
+								<%= f.label "Password attuale", class:"control-label" %><i>(Inserisci la tua vecchia password per confermare le modifiche)</i>
+							  <div class="controls">
+							    <%= f.password_field :current_password, autocomplete: "off" ,class:"input-xlarge" %>
+							  </div>
+							</div> <!-- current pass -->
+				</fieldset>
+		</div>
+		<div class="span6">
+			<h4 class="title"><span class="text"><strong>Foto</strong></span></h4>
+			<%= link_to image_tag("#{@user.foto}", :alt => 'La sua foto'), image_path("#{@user.foto}"), class:"thumbnail_p", "data-fancybox-group" => "group1", :title => "#{@user.nome}" %>
+		</div>
+  </div>
+  <div class="row">
+  	<div class="span12">
+  		<div class= "control-group">
+  			<div class="actions">
+  				<%= f.submit "Aggiorna",tabindex:"9", class:"btn btn-inverse large", type:"submit", value:"Modifica account","data-turbolinks" =>"false" %> 
+  				<!-- <h6> OPPURE </h6>
+					<%= button_to "Elimina account", registration_path(resource_name), data: { confirm: "Sei sicuro?" }, method: :delete,tabindex:"9", class:"btn btn-inverse large" %> -->
+				</div>
+				<% end %>
+			</div>
+  	</div>
+  </div>
+</section>
+
+<script>
+			$(function() {
+				$('#myTab a:first').tab('show');
+				$('#myTab a').click(function(e) {
+					e.preventDefault();
+					$(this).tab('show');
+				})
+			})
+			$(document).ready(function() {
+				$('.thumbnail_p').fancybox({
+					openEffect: 'none',
+					closeEffect: 'none'
+				});
+
+				$('#myCarousel-2').carousel({
+					interval: 2500
+				});
+			});
+		</script>
+<script>
+  $(function() {
+
+  // We can attach the `fileselect` event to all file inputs on the page
+  $(document).on('change', ':file', function() {
+    var input = $(this),
+        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+    input.trigger('fileselect', [numFiles, label]);
+  });
+
+  // We can watch for our custom `fileselect` event like this
+  $(document).ready( function() {
+      $(':file').on('fileselect', function(event, numFiles, label) {
+
+          var input = $(this).parents('.input-group').find(':text'),
+              log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+          if( input.length ) {
+              input.val(log);
+          } else {
+              if( log ) alert(log);
+          }
+
+      });
+  });
+  
+});
+</script>

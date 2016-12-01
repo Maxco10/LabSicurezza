@@ -20,8 +20,8 @@
         <td><% if(message.stato == 1) %> L <% else %> DL <% end %></td>
         <td><%= message.created_at %></td>
         <td><%= message.titolo %></td>
-        <td><%= User.where("id = ?",message.mittente_id).take.nome %></td>
-        <td><%= User.where("id = ?",message.destinatario_id).take.nome %></td>
+        <td><%= message.nome_mittente %></td>
+        <td><%= message.nome_destinatario %></td>
         <td><%= link_to 'Show', message %></td>
         <td><%= link_to 'Destroy', message, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>

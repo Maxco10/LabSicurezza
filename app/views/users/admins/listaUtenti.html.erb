@@ -1,0 +1,42 @@
+<h1>Lista utenti di SmartBucket</h1>
+<center>
+<table  border="1" >
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Foto</th>
+      <th>Nome</th>
+      <th>Email</th>
+      <th>Iscritto il</th>
+      <th>Sesso</th>
+      <th>Livello</th>
+      <th>Provider</th>
+      <th colspan="4">Azioni</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.id %></td>
+        <td><% if (user.foto != "")  =%>
+						  <p><%= link_to image_tag("#{user.foto}", width: 100), "/", "data-turbolinks" =>"false" %></p>
+						<% else %>
+							<p><%= link_to image_tag("Temporanei/avatar", width: 100), "/", "data-turbolinks" =>"false" %></p>
+						<% end %></td>
+        <td><%= user.nome %><% if user.ban == 1 %><font color="red">-->Bannato</font><% end %></td>
+        <td><%= user.email %></td>
+        <td><%= user.created_at %></td>
+        <td><%= user.sesso %></td>
+        <td><% if(user.tipo_utente == 1) %> Admin <% else %> Utente <% end %> </td>
+        <td><%= user.provider %></td>
+        <td><% if(user.tipo_utente == 1) %> <%= link_to "Fai utente", "/faiAdmin?id=#{user.id}&admin=0", "data-turbolinks" =>"false" %> <% else %> <%= link_to "Fai admin", "/faiAdmin?id=#{user.id}&admin=1", "data-turbolinks" =>"false" %> <% end %></td>
+        <td><% if(user.ban == 0) %> <%= link_to "Banna", "/banna_show?id=#{user.id}", "data-turbolinks" =>"false" %> <% else %> <%= link_to "Togli ban", "/togliBan?id=#{user.id}", "data-turbolinks" =>"false", "title" => "#{user.motivo_ban}" %> <% end %></td>
+        <td><%= link_to "Modifica", "/modificaUtente_show?id=#{user.id}", "data-turbolinks" =>"false" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+</center>
+

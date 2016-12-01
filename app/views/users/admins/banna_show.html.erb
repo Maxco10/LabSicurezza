@@ -1,0 +1,11 @@
+<center>
+    <h2>Banna utente</h2>
+    <p>Stai per bannare l'utente <%= params[:id] %></p>
+    <form method="post" action="/banna_action">
+        <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+        <input type="hidden" name="id_utente" value="<%= params[:id] %>" />
+        <p>Motivo</p>
+        <p><input type="text" name="motivo" /></p>
+        <p><input type="submit" value="Banna" /></p>
+    </form>
+</center>

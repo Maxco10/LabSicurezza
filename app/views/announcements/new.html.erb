@@ -1,6 +1,175 @@
-<h2>Nuovo annuncio</h2>
-    <section class="header_text">
-	    <%= render 'form' %>
-		</section>
-</section>
-<%= link_to 'Indietro', announcements_path %>
+<!-- <%= link_to 'Indietro', announcements_path %> -->
+
+
+			<section class="header_text sub">
+				<h4><span>Aggiungi nuovo annuncio</span></h4>
+			</section>			
+			<section class="main-content">				
+				<div class="row">
+					<div class="span6">					
+						<h4 class="title"><span class="text"><strong>Informazioni</strong> sull'articolo</span></h4>
+						<%= form_for(@announcement) do |f| %>
+              <% if @announcement.errors.any? %>
+                <div id="error_explanation">
+                <h2><%= pluralize(@announcement.errors.count, "error") %> prohibited this announcement from being saved:</h2>
+                <ul>
+                <% @announcement.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+                </ul>
+              </div>
+              <% end %>
+							<input type="hidden" name="next" value="/">
+							<fieldset>
+								<div class="control-group">
+									<label class="control-label">Titolo</label>
+									<div class="controls">
+										<%= f.text_field :titolo, :required => true, id: "username", class: "input-xlarge"  %>
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label">Categoria</label>
+									<div class="controls">
+                    <%= f.select :categoria, ['Auto','Accessori auto',
+                                  'Moto', 'Accessori moto',
+                                  'Attrezzature da lavoro', 'Informatica',
+                                  'Fotografia', 'Audio/video',
+                                  'Videogiochi', 'Telefonia',
+                                  'Mobili', 'Casalinghi',
+                                  'Elettrodomestici', 'Abbigliamento',
+                                  'Giardinaggio', 'Tutto per bambini',
+                                  'Animali', 'Cancelleria',
+                                  'Sport', 'Collezionismo'], include_blank: false, class: "form-control", id: "sel1"  %>
+									</div>
+								</div>
+								<div class="control-group">
+              
+                
+                 <label class="control-label">Foto</label>
+                <div class="btn btn-inverse input-group">
+                  <label class="input-group-btn ">
+                    <span>
+                        Scegli la foto <%= f.file_field :foto, accept: 'image/png,image/gif,image/jpeg', style: "display: none;" %>
+                    </span>
+                  </label>
+                  <input type="text" class="form-control" readonly>
+                </div> 
+								
+
+
+								</div>
+								<div class="control-group">
+									<label class="control-label">Luogo</label>
+									<div class="controls">
+									  <%= f.text_field :luogo, :required => true, class: "input-xlarge" %>
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label">Descrizione</label>
+									<div class="controls">
+									  <%= f.text_area :descrizione, :rows => 6, style: 'width:90%;', class: "input-xlarge", :required => true %>
+									</div>
+								</div>
+											
+					</div>
+					<div class="span6">					
+						<h4 class="title"><span class="text"><strong>Mappa</strong></span></h4>
+					  <table height="100%" width="100%" class="controlss">
+              <td valign="top" id="map" ><%= image_tag("map-loader.gif") %></td>
+            </table>
+					</div>				
+				</div>
+				<div class="row">
+				  <div class="span12">
+				    <center>
+				      <div class="control-group">
+								<%= f.submit "Crea", tabindex:"3", class: "btn btn-inverse large"%> || <%= button_tag "Reset", type: :reset, tabindex:"3", class: "btn btn-inverse large" %>
+								</div>
+							</fieldset>
+						<% end %>
+				    </center>
+				  </div>
+				</div>
+			</section>
+			
+			
+<script>
+      function initMap() {
+        //Posizione di default della mappa
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 41.8919, lng: 12.5113},
+          zoom: 13
+        });
+        
+        //Campo di input
+        var input = document.getElementById('announcement_luogo');
+
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo('bounds', map);
+
+        var infowindow = new google.maps.InfoWindow();
+        var marker = new google.maps.Marker({
+          map: map
+        });
+        marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+
+        autocomplete.addListener('place_changed', function() {
+          infowindow.close();
+          var place = autocomplete.getPlace();
+          if (!place.geometry) {
+            return;
+          }
+
+          if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+          } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(17);
+          }
+
+          // Imposto la posizione sulla mappa della destinazione cercata
+          marker.setPlace({
+            placeId: place.place_id,
+            location: place.geometry.location
+          });
+          marker.setVisible(true);
+
+          infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + place.formatted_address);
+          document.getElementById('announcement_luogo').value = place.formatted_address;
+          infowindow.open(map, marker);
+        });
+      }
+    </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBIKW0xq45fu2dqUZtBMqXps0SrSHJu0c&libraries=places&callback=initMap"async defer></script>
+
+<script>
+  $(function() {
+
+  // We can attach the `fileselect` event to all file inputs on the page
+  $(document).on('change', ':file', function() {
+    var input = $(this),
+        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+    input.trigger('fileselect', [numFiles, label]);
+  });
+
+  // We can watch for our custom `fileselect` event like this
+  $(document).ready( function() {
+      $(':file').on('fileselect', function(event, numFiles, label) {
+
+          var input = $(this).parents('.input-group').find(':text'),
+              log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+          if( input.length ) {
+              input.val(log);
+          } else {
+              if( log ) alert(log);
+          }
+
+      });
+  });
+  
+});
+</script>
