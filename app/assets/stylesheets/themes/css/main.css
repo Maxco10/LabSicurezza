@@ -670,7 +670,7 @@ section.our_client .row{
 }
 /*
 .nav-list li a{
-	/*background: url(../images/trigger_right.png) transparent no-repeat 5px 8px;*/
+	background: url(../images/trigger_right.png) transparent no-repeat 5px 8px;
 }
 */
 .nav-list > .active > a, .nav-list > .active > a:hover{

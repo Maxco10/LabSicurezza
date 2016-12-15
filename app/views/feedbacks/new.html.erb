@@ -1,43 +1,14 @@
-
-<section class="header_text sub">
-	<h4><span>Lascia un feedback</span></h4>
-</section>	
+<center>
+	<div class="page-header">
+		<h1>Lascia un feedback a <%= current_user.nome_del_destinatario(params[:utente]) %></h1>
+  </div>
+</center>	
 <section class="main-content">				
   <div class="row">
-    <div class="span12">
-      <center>
-        <%= form_for(@feedback) do |f| %>
-          <% if @feedback.errors.any? %>
-            <div id="error_explanation">
-            <h2><%= pluralize(@feedback.errors.count, "error") %> prohibited this feedback from being saved:</h2>
-            <ul>
-              <% @feedback.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-              <% end %>
-            </ul>
-          </div>
-          <% end %>
-          <fieldset>
-            <div class="control-group">
-              <h1><%= f.label :voto, class:"control-label" %></h1></h4><br>
-              <div class="controls">
-                <%= f.select :voto, ['1','2','3','4','5'], include_blank: false, class: "form-control", id: "sel1" %>
-                <!-- <p>stai lasiando il feedback per l utente <%= User.where("id = ?",params[:utente]).take.nome %></p> -->
-                <%= f.hidden_field :proprietario_id, :value => params[:utente] %>
-                <%= f.hidden_field :annuncio_id, :value => params[:annuncio] %>
-                <%= f.hidden_field :booking_id, :value => params[:booking] %>
-              </div>
-            </div>
-            <div class="control-group">
-              <%= f.submit "Lascia feedback", tabindex:"3", class: "btn btn-inverse large"%>
-            </div>
-          </fieldset>
-          <% end %>
-          <hr>
-          <%= link_to 'Back', controller: "bookings",action: "richieste_inviate" %>
-        </div>
-      </center>
+    <div class="span5"></div>
+    <div class="span2">
+      <center><script type="text/javascript">star(3);</script></center>
     </div>
+    <div class="span5"></div>
   </div>
 </section>
-

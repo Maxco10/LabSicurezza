@@ -22,7 +22,116 @@
                     <%= javascript_include_tag 'themes/js/jquery.scrolltotop', 'data-turbolinks-track' => false %>
                     <%= javascript_include_tag "application" %>
                       <%= csrf_meta_tags %>
+
+<style type="text/css">
+#STAR_RATING ul
+{
+  margin: 0px;
+  padding: 0px;
+  height: 16px;
+  list-style: none;
+}
+#STAR_RATING li
+{
+  width: 19px;
+  height: 16px;
+  display: block;
+  float: left;
+  background-image: url('<%= image_url("star-off.gif") %>');
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+#STAR_RATING li.on
+{
+  background-image: url('<%= image_url("star-on.gif") %>');
+}
+#STAR_RATING span.output
+{
+  padding: 3px;
+  color: #339900;
+  font-weight: bold;
+}
+</style>
+                      
+<% if @feedback %>
+  <script type="text/javascript">
+  // faccio il preload dell'immagine utilizzata per l'effetto rollover
+  var staron = new Image(); staron.src = "<%= image_path("star-on.gif") %>";
+  
+  // Definisco la funzione per la votazione che verrà lanciata
+  // all'evento onclick su una delle 5 stelle
+  function star_vota(QT)
+  {
+    // Creo una variabile con l'output da restituire al momento del voto
+    var star_output = '<span class="output">Hai votato ' + QT + ' stelle!</span>';
+    // Cambio dinamicamente il contenuto del DIV contenitore con il messaggio di
+    // conferma di votazione avvenuta
+    document.getElementById('STAR_RATING').innerHTML = star_output;
+    
+    $.post("/feedbacks",
+    {
+      utf8: "✓",
+      authenticity_token: "<%= form_authenticity_token %>",
+      feedback: {
+        voto: QT,
+        proprietario_id: <%= params[:utente] %>,
+        annuncio_id: <%= params[:annuncio] %>,
+        booking_id: <%= params[:booking] %>
+      }
+    },
+    function(data,status){
+      
+    });
+  }
+  
+  // Definisco la funzione per "accendere" dinamicamente le stelle
+  // unico argomento è il numero di stelle da accendere
+  function star_accendi(QT)
+  {
+    // verifico che esistano i DIV delle stelle
+    // se il DIV non esiste significa che si è già votato
+    if (document.getElementById('star_1'))
+    {
+      // Ciclo tutte e 5 i DIV contenenti le stelle
+      for (i=1; i<=5; i++)
+      {
+        // se il div è minore o uguale del numero di stelle da accendere
+        // imposto dinamicamente la classe su "on"
+        if (i<=QT) document.getElementById('star_' + i).className = 'on';
+        // in caso contrario spengo la stella...
+        else document.getElementById('star_' + i).className = '';
+      }
+    }
+  }
+  
+  // Questa è la funzione che produce l'output.
+  // richiede come unico argomento il numero di stelle che si vuole accendere
+  // di default (possiamo in questo, ad esempio, modo mostrare il voto ottenuto
+  // nelle precedenti votazioni)
+  function star(QT)
+  {
+    // stampo il codice HTML che produce le stelle
+    document.write('<div id="STAR_RATING" onmouseout="star_accendi(' + QT + ')""><ul>');
+    document.write('<li id="star_1" onclick="star_vota(1)" onmouseover="star_accendi(0); star_accendi(1)"></li>');
+    document.write('<li id="star_2" onclick="star_vota(2)" onmouseover="star_accendi(0); star_accendi(2)"></li>');
+    document.write('<li id="star_3" onclick="star_vota(3)" onmouseover="star_accendi(0); star_accendi(3)"></li>');
+    document.write('<li id="star_4" onclick="star_vota(4)" onmouseover="star_accendi(0); star_accendi(4)"></li>');
+    document.write('<li id="star_5" onclick="star_vota(5)" onmouseover="star_accendi(0); star_accendi(5)"></li>');
+    document.write('</ul></div>');
+    // accendo le stelle definite in argomento
+    star_accendi(QT);
+  }
+  </script>
+<%end%>
+
+
+
+
+
 </head>
+<script>
+  history.pushState('', '', 'https://smartbucket-maxco93.c9users.io/');
+</script>
 
 <body>
 
@@ -56,7 +165,7 @@
   <div id="wrapper" class="container">
     <section class="navbar main-menu">
       <div class="navbar-inner main-menu">
-        <a class="logo pull-left"><%=link_to image_tag("Logo_smartbucket2.png", :border=>0, :class=>"site_logo", "data-turbolinks" =>"false"), root_path %></a>
+        <a class="logo pull-left"><%=link_to image_tag("Logo_smartbucket2.png", :border=>0, :class=>"site_logo", "data-turbolinks" =>"false"), root_path,"data-turbolinks" =>"false" %></a>
         <nav id="menu" class="pull-right">
           <ul>
             <% if user_signed_in? %>
@@ -68,13 +177,13 @@
                 </ul>
               </li>
               <li><%= link_to 'Nuovo annuncio', new_announcement_path, "data-turbolinks" =>"false" %></li>
-              <li><a>Richieste <span class="label label-default"></span></a>
+              <li><a>Richieste <span class="label label-default"><% if current_user.conta_nuove_richieste > 0 %>NEW<%end%></span></a>
                 <ul>
                   <li><%= link_to "Richieste inviate", "/richieste_inviate", "data-turbolinks" =>"false" %></li>
-                  <li><%= link_to "Richieste ricevute", bookings_path, "data-turbolinks" =>"false" %></li>
+                  <li><a data-turbolinks="false" href="/bookings">Richieste ricevute  <% if current_user.conta_nuove_richieste >0 %><span class="badge"><%= current_user.conta_nuove_richieste %></span><%end%></a></li>
                 </ul>
               </li>
-              <li><a>Messaggi <span class="badge"><%= Message.where(destinatario_id:current_user.id, stato: 0).count %></span></a>
+              <li><a>Messaggi <% if current_user.conta_nuovi_messaggi>0 %> <span class="badge"><%= current_user.conta_nuovi_messaggi %></span><%end%></a>
                 <ul>
                   <li><%= link_to 'Messaggi ricevuti', messages_path, "data-turbolinks" =>"false" %></li>
                   <li><%= link_to 'Messaggi inviati', "/messaggi_inviati", "data-turbolinks" =>"false" %></li>
@@ -91,8 +200,6 @@
                 </ul>
               </li>
               <% end %>
-              <% else %>
-                <li><a>FAQ</a></li>
               <% end %>
           </ul>
         </nav>
@@ -111,17 +218,18 @@
             <ul class="nav">
               
               <li><%= link_to "Homepage", root_path, "data-turbolinks" =>"false" %></li>
-              <li><a href="#">FAQ</a></li>
-              <li><a href="#">Contattaci</a></li>
+              <li><a href="/regolamento">Regolamento</a></li>
             </ul>
           </div>
           <div class="span4">
-            <h4>Il mio account</h4>
-            <ul class="nav">
-              <li><%= link_to "Il mio account", edit_user_registration_path, "data-turbolinks" =>"false" %></li>
-              <li><%= link_to "I tuoi annunci", announcements_path, "data-turbolinks" =>"false" %></li>
-              <li><%= link_to "Richieste inviate", "/richieste_inviate", "data-turbolinks" =>"false" %></li>
-            </ul>
+            <% if user_signed_in? %>
+              <h4>Il mio account</h4>
+              <ul class="nav">
+                <li><%= link_to "Il mio account", edit_user_registration_path, "data-turbolinks" =>"false" %></li>
+                <li><%= link_to "I tuoi annunci", announcements_path, "data-turbolinks" =>"false" %></li>
+                <li><%= link_to "Richieste inviate", "/richieste_inviate", "data-turbolinks" =>"false" %></li>
+              </ul>
+            <%end%>
           </div>
           <div class="span5">
             <p class="logo">

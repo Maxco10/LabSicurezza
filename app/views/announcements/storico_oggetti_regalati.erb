@@ -1,11 +1,13 @@
-<section class="header_text sub">
-				<h4><span>Storico dei tuoi annunci(<%= @announcements.count %>)</span></h4>
-			</section>
+
+<center>
+				<div class="page-header">
+        	<h1>Storico dei tuoi annunci(<%= @announcements.count %>)</h1>
+      	</div>
+			</center>
 			<section class="main-content">		
 				<div class="row">						
 					<div class="span12">								
 						<ul class="thumbnails listing-products">
-						
 						<% if @announcements == nil %>
     				<section class="header_text sub">
 							<h4><span>Non hai creato nessun annuncio </span></h4>
@@ -16,11 +18,11 @@
 									<div class="product-box">
 										<span class="sale_tag"></span>			
 											<% if (announcement.foto != "")  =%>
-												<p><%= link_to image_tag("#{announcement.foto}", class: "foto_annunci_normalizzate"), announcement %></p>
+												<p><%= link_to image_tag("#{announcement.foto}", class: "foto_annunci_normalizzate"), announcement, "data-turbolinks" =>"false" %></p>
 											<% else %>
-												<p><%= link_to image_tag("Temporanei/avatar"), announcement %></p>
+												<p><%= link_to image_tag("Temporanei/avatar"), announcement, "data-turbolinks" =>"false" %></p>
 											<% end %>
-											<%= link_to announcement.titolo, announcement, class: "title" %><br/>
+											<%= link_to announcement.titolo, announcement, class: "title", "data-turbolinks" =>"false" %><br/>
 											<a class="category">[<%= announcement.categoria %>]</a></br>
 									</div>
 								</li>

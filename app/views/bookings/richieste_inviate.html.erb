@@ -1,35 +1,13 @@
-<p id="notice"><%= notice %></p>
+ <center><div class="page-header">
+        	<h1>Annunci da te richiesti</h1>
+      	</div></center>	
 
-<!--<table width="100%" border="1">
-  <thead>
-    <tr>
-      <th>Foto</th>
-      <th>Titolo</th>
-      <th>Proprietario annuncio</th>
-      <th>Prenotazione del</th
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @bookings.each do |booking| %>
-      <tr>
-        <td><%= image_tag(booking.foto_annuncio, :border=>0, size: "100") %></td>
-        <td><%= booking.titolo_annuncio %></td>
-        <td><%= link_to booking.nome_proprietario, "/feedbacks?utente=#{booking.proprietario_id}" %></td>
-        <td><%= booking.created_at %></td>
-        <td><%=  link_to 'Messaggia', "/messages/new?destinatario_id=#{booking.proprietario_id}" %></td>
-        <% if( booking.etichetta_annuncio == 1) %>
-          <td><%= link_to 'Elimina prenotazione', booking, method: :delete, data: { confirm: 'Sei sicuro?' } %></td>
-        <% else %>
-          <td colspan="2"><%=  link_to 'Lascia feedback', "/feedbacks/new?utente=#{booking.proprietario_id}" %></td>
-        <% end %>      </tr>
-    <% end %>
-  </tbody>
-</table> -->
-
-<section class="header_text sub">
-  <h4><span>Annunci da te richiesti</span></h4>
+  
+	<% if notice != nil %>
+		<div class="alert alert-success">
+		<strong><%= notice %></strong>
+	  </div>
+  <%end%>
 </section>
 <section class="main-content">				
 	<div class="row">
@@ -51,14 +29,14 @@
 						<tr>
 							<td><%= link_to image_tag(booking.foto_annuncio, width: "200", height:220), announcement_path(booking.annuncio_id), "data-turbolinks" =>"false"%></a></td>
 							<td><%= booking.titolo_annuncio %></td>
-							<td><%= link_to booking.nome_proprietario, "/feedbacks?utente=#{booking.proprietario_id}" %></td>
+							<td><%= link_to booking.nome_proprietario, "/feedbacks?utente=#{booking.proprietario_id}", "data-turbolinks" =>"false"  %></td>
 							<td><%= booking.created_at %></td>
 							<td><%=  link_to 'Messaggia', "/messages/new?destinatario_id=#{booking.proprietario_id}" %></td>
 							
 							<% if( booking.etichetta_annuncio == 1) %>
-                <td><%= link_to 'Elimina prenotazione', booking, method: :delete, data: { confirm: 'Sei sicuro?' } %></td>
+                <td><%= link_to 'Elimina prenotazione', booking, method: :delete, data: { confirm: 'Sei sicuro?' }, "data-turbolinks" =>"false"  %></td>
               <% else %>
-                <td colspan="2"><%=  link_to 'Lascia feedback', "/feedbacks/new?utente=#{booking.proprietario_id}&annuncio=#{booking.annuncio_id}&booking=#{booking.id}" %></td>
+                <td colspan="2"><%=  link_to 'Lascia feedback', "/feedbacks/new?utente=#{booking.proprietario_id}&annuncio=#{booking.annuncio_id}&booking=#{booking.id}", "data-turbolinks" =>"false"  %></td>
               <% end %>
 							
 						</tr>

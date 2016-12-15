@@ -7,7 +7,7 @@
 
 
 <section class="main-content">			
-				<div class="row">
+	<div class="row">
 					<div class="span6">					
 						<h4 class="title"><span class="text"><strong>Modifica</strong> annuncio</span></h4>
 
@@ -83,10 +83,10 @@
 					</div>
 				<div class="span6">
 					<h4 class="title"><span class="text"><strong>Foto</strong></span></h4>
-					<%= link_to image_tag("#{@announcement.foto}", :alt => 'PRODOTTO'), image_path("#{@announcement.foto}"), class:"thumbnail_p", "data-fancybox-group" => "group1", :title => "#{@announcement.titolo}" %>
+					<%= link_to image_tag("#{@announcement.foto}", :alt => 'PRODOTTO'), image_path("#{@announcement.foto}"), class:"thumbnail_p", "data-fancybox-group" => "group1", :title => "#{@announcement.titolo}", "data-turbolinks" =>"false" %>
         </div>
       </div>
-    <div class="row">
+  <div class="row">
 			<div class="span12">
 					<h4 class="title"><span class="text"><strong>MAPPA</strong></span></h4>
     			<table height="90%" width="100%" class="controlss" style="margin-bottom: 10px;">

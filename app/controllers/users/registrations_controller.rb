@@ -15,7 +15,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
         
     end
     def edit
-        
         render layout: "per_annunci"
     end
     def update

@@ -1,7 +1,8 @@
-
-<section class="header_text sub">
-	<h4><span>Opzioni utente</span></h4>
-</section>	
+<center>
+	<div class="page-header">
+		<h1>Opzioni utente</h1>
+  </div>
+</center>	
 <section class="main-content">			
 	<div class="row">
 		<div class="span6">
@@ -66,7 +67,7 @@
 					<div class="control-group">
 								<%= f.label "Password attuale", class:"control-label" %><i>(Inserisci la tua vecchia password per confermare le modifiche)</i>
 							  <div class="controls">
-							    <%= f.password_field :current_password, autocomplete: "off" ,class:"input-xlarge" %>
+							    <%= f.password_field :current_password, autocomplete: "off" ,class:"input-xlarge", required: "true" %>
 							  </div>
 							</div> <!-- current pass -->
 				</fieldset>

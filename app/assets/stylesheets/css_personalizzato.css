@@ -86,3 +86,7 @@ a.thumbnail_p:focus {
    top:0;
    cursor:pointer;
 }
+
+.messaggio {
+    font-size: 15px !important;
+}

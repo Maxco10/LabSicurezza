@@ -1,24 +1,29 @@
-<p id="notice"><%= notice %></p>
+<section class="main-content">			
+	<div class="row">
+		<div class="span2">
+		  <h3>Informazioni</h3>
+      <div class="container">
+        <div class="jumbotron">
+          <strong>Mittente:</strong>
+          <%= @message.nome_mittente %>
+          </br>
+          <strong>Destinatario:</strong>
+          <%= @message.nome_destinatario %></br>
+          <strong><%= link_to 'Back', messages_path %></strong>
+        </div>
+      </div>
+    </div>
+		<div class="span10">
+      <h2><strong><%= @message.titolo %></strong></h2>
+      <div class="container">
+        <div class="jumbotron">
+          <p class="messaggio"><%= @message.testo %></p> 
+        </div>
+        <%=  link_to 'Rispondi', "/messages/new?destinatario_id=#{@message.destinatario_id}" %>
+      </div>
+		</div>
+  </div>
+</section>
 
-<p>
-  <strong>Titolo:</strong>
-  <%= @message.titolo %>
-</p>
 
-<p>
-  <strong>Testo:</strong>
-  <%= @message.testo %>
-</p>
 
-<p>
-  <strong>Mittente:</strong>
-  <%= @message.mittente_id %>
-</p>
-
-<p>
-  <strong>Destinatario:</strong>
-  <%= @message.destinatario_id %>
-</p>
-
-<%= link_to 'Edit', edit_message_path(@message) %> |
-<%= link_to 'Back', messages_path %>

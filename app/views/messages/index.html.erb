@@ -1,34 +1,49 @@
-<p id="notice"><%= notice %></p>
+<center><div class="page-header">
+  <h1>Messaggi ricevuti</h1>
+  <% if notice %>
+    <div class="alert alert-success">
+      <strong><%= notice %></strong>
+    </div>
+  <% end %>
+</div></center>	
 
-<h1>Listing Messages ricevuti</h1>
-
-<table  border="1">
-  <thead>
-    <tr>
-      <th>Stato</th>
-      <th>Data</th>
-      <th>Titolo</th>
-      <th>Mittente</th>
-      <th>Destinatario</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @messages.each do |message| %>
-      <tr>
-        <td><% if(message.stato == 1) %> L <% else %> DL <% end %></td>
-        <td><%= message.created_at %></td>
-        <td><%= message.titolo %></td>
-        <td><%= message.nome_mittente %></td>
-        <td><%= message.nome_destinatario %></td>
-        <td><%= link_to 'Show', message %></td>
-        <td><%= link_to 'Destroy', message, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Message', new_message_path %>
+<section class="main-content">				
+	<div class="row">
+		<div class="span12">
+		  <div class="table-responsive">					
+			  <table class="table table-striped">
+				<thead>
+					<tr>
+            <th>Stato</th>
+            <th>Data</th>
+            <th>Titolo</th>
+            <th>Mittente</th>
+            <th>Destinatario</th>
+            <th colspan="3"></th>                              
+					</tr>
+				</thead>
+					<tbody>
+					  <% @messages.each do |message| %>
+              <tr>
+                <td><% if(message.stato == 1) %> <span class="label label label-default">GI&Agrave; LETTO</span> <% else %><span class="label label label-info">NUOVO</span> <% end %></td>
+                <td><%= message.created_at %></td>
+                <td><%= link_to "#{message.titolo}", message %></td>
+                <td><%= message.nome_mittente %></td>
+                <td><%= message.nome_destinatario %></td>
+                <td><%= link_to 'Elimina', message, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              </tr>
+            <% end %>
+					  <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>		  
+					</tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

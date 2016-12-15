@@ -6,6 +6,7 @@ class BookingsController < ApplicationController
   # GET /bookings.json
   def index #i tuoi annunci richiesti
     @bookings = Booking.where("proprietario_id = ?",current_user).order(created_at: :desc)
+    @messages = Message.where("mittente_id = ? and destinatario_id = ? ", -1, current_user.id).update_all("stato = 1")
   end
   
   def richieste_inviate
@@ -15,11 +16,13 @@ class BookingsController < ApplicationController
   # GET /bookings/1
   # GET /bookings/1.json
   def show
+    
   end
 
   # GET /bookings/new
   def new
     @booking = Booking.new
+    
   end
 
   # GET /bookings/1/edit
@@ -29,11 +32,20 @@ class BookingsController < ApplicationController
   # POST /bookings
   # POST /bookings.json
   def create
+    Rails.logger.debug "========================================================="
+    Rails.logger.debug "#{booking_params}"
+    Rails.logger.debug "========================================================="
     @booking = Booking.new(booking_params)
     Announcement.where("id = ?",params[:booking][:annuncio_id]).limit(1).update_all("etichetta = 1") # => 1
+    @message = Message.new({"titolo"=>"#{@booking.titolo_annuncio}",
+                              "testo"=>"L'utente #{@booking.nome_prenotato} si è prenotato all'annuncio #{@booking.titolo_annuncio}!!",
+                              "mittente_id"=>"-1",
+                              "destinatario_id"=>"#{@booking.proprietario_id}",
+                              "stato"=>"0"})
     respond_to do |format|
       if @booking.save
-        format.html { redirect_to @booking, notice: 'Prenotazione avvenuta con successo!.' }
+        @message.save
+        format.html { redirect_to richieste_inviate_path, notice: 'Prenotazione avvenuta con successo!' }
         format.json { render :show, status: :created, location: @booking }
       else
         format.html { render :new }
@@ -45,15 +57,7 @@ class BookingsController < ApplicationController
   # PATCH/PUT /bookings/1
   # PATCH/PUT /bookings/1.json
   def update
-    respond_to do |format|
-      if @booking.update(booking_params)
-        format.html { redirect_to @booking, notice: 'Prenotazione modificata con successo!.' }
-        format.json { render :show, status: :ok, location: @booking }
-      else
-        format.html { render :edit }
-        format.json { render json: @booking.errors, status: :unprocessable_entity }
-      end
-    end
+    
   end
 
   # DELETE /bookings/1
@@ -62,7 +66,7 @@ class BookingsController < ApplicationController
     @booking.destroy
     Announcement.where("id = ?",@booking.annuncio_id).limit(1).update_all("etichetta = 0") # => 1
     respond_to do |format|
-      format.html { redirect_to bookings_url, notice: 'Prenotazione eliminata con successo!' }
+      format.html { redirect_to richieste_inviate_path, notice: 'Prenotazione eliminata con successo!' }
       format.json { head :no_content }
     end
   end

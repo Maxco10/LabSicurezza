@@ -26,5 +26,32 @@ class User < ActiveRecord::Base
       end
     end
   end
+  
+  def conta_nuove_richieste
+    Message.where(destinatario_id: id, stato: 0, mittente_id: -1).count
+  end
+  
+  def conta_nuovi_messaggi
+    Message.where("destinatario_id = ? and stato = ? and mittente_id != ? ", id,0,-1).count
+  end
+  
+  def oggetti_del_proprietario
+    Announcement.where("id_proprietario_id = ? and not etichetta = 2", id)
+  end
+  
+  def storico_oggetti_regalati
+    Announcement.where("id_proprietario_id = ? and etichetta = 2", id)
+  end
+  
+  def nome_del_destinatario(id)
+    if(id != nil)
+      utente_bersaglio = User.where("id = ?",id).take
+      if(utente_bersaglio != nil)
+        utente_bersaglio.nome
+      end
+    else
+      "--"
+    end
+  end
 
 end

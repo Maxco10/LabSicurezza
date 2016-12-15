@@ -64,6 +64,8 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+  #Pagine statiche
+  get "/regolamento", to: "home#regolamento"
   
   root 'home#presentazione'
   get '/profilo', to: 'home#profilo_utente'
@@ -73,7 +75,9 @@ Rails.application.routes.draw do
   get '/chiudi_richiesta', to: 'bookings#chiudi_annuncio'
   get '/messaggi_inviati', to: 'messages#messaggi_inviati'
   get '/segnala_annuncio', to: 'announcements#segnala_annuncio'
-  get'/miostorico',to: 'announcements#storico_oggetti_regalati'
+  get '/miostorico',to: 'announcements#storico_oggetti_regalati'
+  
+  
   
   
   #Rotte funzioni admin
@@ -93,6 +97,6 @@ Rails.application.routes.draw do
   get "/banna_show", to: "users/admins#banna_show"
   post "/banna_action", to: "users/admins#banna_action"
   get "/togliBan", to: "users/admins#togliBan"
-  
+  get "/errori", to: 'home#errori'
   
 end

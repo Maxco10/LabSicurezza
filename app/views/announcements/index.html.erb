@@ -1,6 +1,8 @@
-			<section class="header_text sub">
-				<h4><span>I tuoi annunci (<%= @announcements.count %>)</span></h4>
-			</section>
+			<center>
+				<div class="page-header">
+        	<h1>I tuoi annunci (<%= @announcements.count %>)</h1>
+      	</div>
+			</center>
 			<section class="main-content">		
 				<div class="row">						
 					<div class="span12">								
@@ -22,7 +24,14 @@
 											<% end %>
 											<%= link_to announcement.titolo, announcement, class: "title" %><br/>
 											<a class="category">[<%= announcement.categoria %>]</a></br>
-											<%= link_to 'Modifica', edit_announcement_path(announcement), class: "category"%> | <%= link_to 'Elimina', announcement, method: :delete, data: { confirm: 'Sei sicuro?' }, class: "category" %>
+											<%= link_to 'Modifica', edit_announcement_path(announcement), class: "category"%> | <%= link_to 'Elimina', announcement, method: :delete, data: { confirm: 'Sei sicuro?' }, class: "category" %></br>
+											<a class="category"> 
+												<% if announcement.prenotato_da != ""%>
+													L'annuncio è stato prenotato da: <%= announcement.prenotato_da %>
+												<% else %>
+													L'annuncio è ancora disponibile
+												<% end %>
+											</a></br>
 									</div>
 								</li>
 							<% end %>

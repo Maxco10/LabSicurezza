@@ -8,6 +8,7 @@ gem 'geocoder'
 #Gem per will_paginate
 gem 'will_paginate'
 
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5'
 # Use sqlite3 as the database for Active Record
@@ -43,14 +44,26 @@ gem 'superfish-rails'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  #gem per rspec
+  gem 'rspec-rails'
+  gem 'web-console', '~> 2.0'
+  gem "factory_girl_rails", "~> 4.0"
+  gem 'capybara'
+  gem 'guard-rspec'
+
 end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
-
+  #gem per rspec
+  gem 'rspec-rails'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+  gem "factory_girl_rails", "~> 4.0"
+  gem 'capybara'
+  gem 'guard-rspec'
+
 end
 
 gem 'will_paginate-bootstrap'

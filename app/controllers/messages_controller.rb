@@ -16,7 +16,7 @@ class MessagesController < ApplicationController
   # GET /messages/1.json
   def show
     @messages = Message.find(params[:id])
-    Message.where("id = ?",@messages.id).limit(1).update_all("stato = 1") # => 1
+    @messages.imposta_come_letto
   end
 
   # GET /messages/new
@@ -31,10 +31,13 @@ class MessagesController < ApplicationController
   # POST /messages
   # POST /messages.json
   def create
+    Rails.logger.debug "========================================================="
+    Rails.logger.debug "#{message_params}"
+    Rails.logger.debug "========================================================="
     @message = Message.new(message_params)
     respond_to do |format|
       if @message.save
-       format.html { redirect_to "/messaggi_inviati", notice: 'Message was successfully created.' }
+       format.html { redirect_to "/messaggi_inviati", notice: 'Il messaggio è stato creato con successo!' }
        format.json { render :show, status: :created, location: @message }
       else
         format.html { render :new }
@@ -48,7 +51,7 @@ class MessagesController < ApplicationController
   def update
     respond_to do |format|
       if @message.update(message_params)
-        format.html { redirect_to @message, notice: 'Message was successfully updated.' }
+        format.html { redirect_to @message, notice: 'Il messaggio è stato creato con successo!' }
         format.json { render :show, status: :ok, location: @message }
       else
         format.html { render :edit }

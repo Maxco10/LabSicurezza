@@ -84,5 +84,13 @@ class HomeController < ActionController::Base
     end
     render layout: 'per_annunci'
   end
+  
+  def errori
+    render layout: 'application'
+  end
+  
+  def regolamento
+    render layout: 'application'
+  end
 
 end

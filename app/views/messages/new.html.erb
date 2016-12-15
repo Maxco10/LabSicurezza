@@ -1,5 +1,45 @@
-<h1>New Message</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Back', messages_path %>
+<center>
+<div class="page-header">
+        <h1>Sta inviando un messaggio a <%= current_user.nome_del_destinatario(params[:destinatario_id]) %></h1>
+      </div>
+</center>
+<section class="main-content">				
+	<div class="row">
+		<div class="span12">
+      <center>
+      <%= form_for(@message) do |f| %>
+        <% if @message.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@message.errors.count, "error") %> prohibited this message from being saved:</h2>
+            <ul>
+            <% @message.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+            </ul>
+          </div>
+        <% end %>
+        <fieldset>
+          <%= f.hidden_field :stato, :value => 0 %>
+          <%= f.hidden_field :destinatario_id, :value => params[:destinatario_id] %>
+          <%= f.hidden_field(:mittente_id, :value => current_user.id) %>
+          <div class="control-group">
+            <label class="control-label">Titolo</label>
+              <div class="controls">
+                 <%= f.text_field :titolo, :required => true,  class: "input-xlarge" %>
+              </div>
+            </div>
+          <div class="control-group">
+            <label class="control-label">Testo</label>
+              <div class="controls">
+                 <%= f.text_area :testo, :required =>true, :rows => 3, class: "input-xlarge" %>
+              </div>
+            </div>
+          <div class="control-group">
+            <%= f.submit "INVIA", tabindex:"3", class: "btn btn-inverse large" %>
+          </div>
+        </fieldset>
+      <%end%>
+			</center>			
+		</div>
+	</div>
+</section>

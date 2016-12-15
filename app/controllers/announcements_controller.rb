@@ -7,8 +7,7 @@ class AnnouncementsController < ApplicationController
   # GET /announcements.json
   def index
     #Solo gli annunci del proprietario e aperti vengono visualizzati.
-    @user = current_user
-    @announcements = Announcement.where(id_proprietario_id: @user.id, etichetta: 0).paginate(page: params[:page],per_page: Numero_risultati_per_pagina)
+    @announcements = current_user.oggetti_del_proprietario.paginate(page: params[:page],per_page: Numero_risultati_per_pagina)
     render layout: "per_annunci"
   end
 
@@ -37,7 +36,12 @@ class AnnouncementsController < ApplicationController
 
   # GET /announcements/1/edit
   def edit
-    render layout: "per_annunci"
+    #Solo i proprietario degli annunci possono, modificare l'annuncio.
+    if(current_user.id == @announcement.id_proprietario_id)
+      render layout: "per_annunci"
+    else
+      redirect_to root_path
+    end
   end
 
   # POST /announcements
@@ -59,7 +63,7 @@ class AnnouncementsController < ApplicationController
     end
     respond_to do |format|
       if @announcement.save
-        format.html { redirect_to @announcement, notice: 'Annuncio creato!.' }
+        format.html { redirect_to @announcement}
         format.json { render :show, status: :created, location: @announcement }
       else
         format.html { render :new }
@@ -74,9 +78,11 @@ class AnnouncementsController < ApplicationController
     uploaded_io = params[:announcement][:foto]
         if uploaded_io != nil
             #Rails.logger.debug "#{params[:announcement].inspect}"
-            if @announcement.foto != ""
+            if @announcement.foto != "" and @announcement.foto != nil
               file_veccchio = @announcement.foto.split('/')[-1]
-              File.delete(Rails.root.join('app','assets','images','foto_annunci', "#{file_veccchio}"))
+              if File.exist?(Rails.root.join('app','assets','images','foto_annunci', "#{file_veccchio}"))
+                File.delete(Rails.root.join('app','assets','images','foto_annunci', "#{file_veccchio}"))
+              end
             end
             estensione = uploaded_io.original_filename.split('.')[-1]
             File.open(Rails.root.join('app','assets','images','foto_annunci', "annuncio#{@announcement.id}.#{estensione}"), 'wb') do |file|
@@ -87,7 +93,7 @@ class AnnouncementsController < ApplicationController
         end
     respond_to do |format|
       if @announcement.update(announcement_params)
-        format.html { redirect_to @announcement, notice: 'Annuncio aggiornato!.' }
+        format.html { redirect_to @announcement, notice: 'Annuncio aggiornato!' }
         format.json { render :show, status: :ok, location: @announcement }
       else
         format.html { render :edit }
@@ -99,14 +105,20 @@ class AnnouncementsController < ApplicationController
   # DELETE /announcements/1
   # DELETE /announcements/1.json
   def destroy
+    #Se l'annuncio è prenotato, elimino anche la sua annessa prenotazione.
+    if(@announcement.prendi_booking != nil) 
+      @booking = @announcement.prendi_booking
+      @booking.destroy
+    end
     @announcement.destroy
     respond_to do |format|
-      format.html { redirect_to announcements_url, notice: 'Annuncio cancellato!.' }
+      format.html { redirect_to announcements_url, notice: 'Annuncio cancellato!' }
       format.json { head :no_content }
     end
   end
+  
   def storico_oggetti_regalati
-      @announcements=Announcement.where("etichetta=2 AND id_proprietario_id='#{current_user.id}'").paginate(page: params[:page],per_page: Numero_risultati_per_pagina)
+      @announcements=(current_user.storico_oggetti_regalati).paginate(page: params[:page],per_page: Numero_risultati_per_pagina)
   end
 
   private

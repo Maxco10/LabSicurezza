@@ -170,3 +170,4 @@ $('#menu > ul').superfish({
 	arrowClass: false,
 	autoArrows:  true
 });
+

@@ -1,23 +1,47 @@
-<p id="notice"><%= notice %></p>
+<center><div class="page-header">
+  <h1>Feedback di <%= User.where("id = ?",params[:utente]).take.nome %></h1>
+  <% if notice %>
+    <div class="alert alert-success">
+      <strong><%= notice %></strong>
+    </div>
+  <% end %>
+</div></center>	
 
-<h1>Feedback di <%= User.where("id=?",params[:utente]).take.nome %></h1>
-<p>Affidabilità dell'utente <%= @media %>%</p>
-<table>
-  <thead>
-    <tr>
-      <th>Voto</th>
-      <th>Lasciato il</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<section class="main-content">
+  <p>Affidabilità dell'utente <%= @media %>%</p>				
+	<div class="row">
+		<div class="span12">
+		  <div class="table-responsive">					
+			  <table class="table table-striped">
+				<thead>
+					<tr>
+            <th>Voto</th>
+            <th>Lasciato il</th>
+					</tr>
+				</thead>
+					<tbody>
+					  <% @feedbacks.each do |feedback| %>
+              <tr>
+                <td>
+                  <%
+                    i = 0
+                    while i < feedback.voto
+                      i += 1
+                  %>
+                      <%= image_tag("star-on.gif", :border=>0) %>
+                  <% end %>
+                </td>
+                <td><%= feedback.created_at %></td>
+              </tr>
+            <% end %>
+					  <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>		  
+					</tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <tbody>
-    <% @feedbacks.each do |feedback| %>
-      <tr>
-        <td><%= feedback.voto %></td>
-        <td><%= feedback.created_at %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<br>

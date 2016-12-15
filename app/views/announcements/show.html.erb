@@ -26,11 +26,11 @@
    
 </script>
 		
-		
-		
-		<section class="header_text sub">
-			<h4><span>DETTAGLI DEL PRODOTTO</span></h4>
-		</section>
+<center>
+	<div class="page-header">
+		<h1>Dettagli del prodotto</h1>
+  </div>
+</center>	
 		<section class="main-content">
 			<div class="row">
 				<div class="span12">
@@ -38,7 +38,7 @@
 						<div class="span4">
 
 
-						<%= link_to image_tag("#{@announcement.foto}", :alt => 'PRODOTTO'), image_path("#{@announcement.foto}"), class:"thumbnail", "data-fancybox-group" => "group1", :title => "#{@announcement.titolo}" %>
+						<%= link_to image_tag("#{@announcement.foto}", :alt => 'PRODOTTO'), image_path("#{@announcement.foto}"), class:"thumbnail", "data-fancybox-group" => "group1", :title => "#{@announcement.titolo}", "data-turbolinks" =>"false" %>
 							
 								<ul class="thumbnails small">
 									<li class="span1"></li>
@@ -55,7 +55,7 @@
 									<strong>Publicato il:</strong> <span><%= @announcement.created_at %></span><br>
 									<strong>Ultima modifica:</strong> <span><%= @announcement.updated_at %></span><br>
 									<strong>Numero di visite:</strong> <span><%= @announcement.visite %></span><br>
-									<strong>Offerente:</strong> <span><%=link_to @announcement.nome_creatore, "/feedbacks?utente=#{@announcement.id_creatore}" %></span><br>
+									<strong>Offerente:</strong> <span><%=link_to @announcement.nome_creatore, "/feedbacks?utente=#{@announcement.id_creatore}", "data-turbolinks" =>"false" %></span><br>
 								</address>
 								<table height="90%" width="100%" class="controlss" style="margin-bottom: 10px;">
 									<td valign="top" id="map" ><%= image_tag("map-loader.gif") %></td>
@@ -74,13 +74,13 @@
 											<button class="btn btn-inverse" type="submit">Prenotati</button>
 										</form>
 									<div id="shareBtn" class="btn btn-inverse">Condividi</div>
-									<%= link_to 'Segnala', "/segnala_annuncio?id=#{@announcement.id}", class: "btn btn-inverse" %>
+									<%= link_to 'Segnala', "/segnala_annuncio?id=#{@announcement.id}", class: "btn btn-inverse", "data-turbolinks" =>"false" %>
 
 									<% else %>
 										<% Rails.logger.debug "============================" %>
 										<% Rails.logger.debug "#{@announcement.id}" %>
 										<% Rails.logger.debug "============================" %>
-										<%= link_to 'Modifica', edit_announcement_path(@announcement.id), class: "category"%> | <%= link_to 'Elimina', @announcement, method: :delete, data: { confirm: 'Sei sicuro?' }, class: "category" %>
+										<%= link_to 'Modifica', edit_announcement_path(@announcement.id), class: "category", "data-turbolinks" =>"false"%> | <%= link_to 'Elimina', @announcement, method: :delete, data: { confirm: 'Sei sicuro?' }, class: "category", "data-turbolinks" =>"false" %>
 									<% end %>
 								<% else %>
 									<form class="form-inline" >
@@ -142,12 +142,12 @@
 													<div class="product-box">
 														<span class="sale_tag"></span>
 															<% if (announcement.foto != "")  =%>
-																<p><%= link_to image_tag("#{announcement.foto}", class: "foto_annunci_normalizzate"), announcement %></p>
+																<p><%= link_to image_tag("#{announcement.foto}", class: "foto_annunci_normalizzate"), announcement, "data-turbolinks" =>"false" %></p>
 															<% else %>
-																<p><%= link_to image_tag("Temporanei/avatar"), announcement %></p>
+																<p><%= link_to image_tag("Temporanei/avatar"), announcement, "data-turbolinks" =>"false" %></p>
 															<% end %>
 														</p>
-														<%= link_to announcement.titolo, announcement, class: "title" %><br/>
+														<%= link_to announcement.titolo, announcement, class: "title", "data-turbolinks" =>"false" %><br/>
 														<a class="category">[<%= announcement.categoria %>]</a>
 													</div>
 												</li>
@@ -161,11 +161,11 @@
 													<div class="product-box">
 														<span class="sale_tag"></span>
 															<% if (announcement.foto != "")  =%>
-																<p><%= link_to image_tag("#{announcement.foto}", class: "foto_annunci_normalizzate"), announcement %></p>
+																<p><%= link_to image_tag("#{announcement.foto}", class: "foto_annunci_normalizzate"), announcement, "data-turbolinks" =>"false" %></p>
 															<% else %>
-																<p><%= link_to image_tag("Temporanei/avatar"), announcement %></p>
+																<p><%= link_to image_tag("Temporanei/avatar"), announcement, "data-turbolinks" =>"false" %></p>
 															<% end %>
-														<%= link_to announcement.titolo, announcement, class: "title" %><br/>
+														<%= link_to announcement.titolo, announcement, class: "title", "data-turbolinks" =>"false" %><br/>
 														<a class="category">[<%= announcement.categoria %>]</a>
 													</div>
 												</li>
@@ -215,7 +215,7 @@ document.getElementById('shareBtn').onclick = function() {
 			marker.setMap(map);
 		}
 	</script>
-	<%= javascript_include_tag 'themes/js/common', 'data-turbolinks-track' => true %>
+	<%= javascript_include_tag 'themes/js/common', "data-turbolinks" =>"false" %>
 		<script>
 			$(function() {
 				$('#myTab a:first').tab('show');

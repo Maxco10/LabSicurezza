@@ -1,15 +1,16 @@
 class Users::AdminsController < ApplicationController
-    before_filter :sei_admin
+    before_filter :authenticate_user!,:sei_admin
+    Numero_risultati_per_pagina = 10
     
     def listaUtenti
-        @users = User.all
+        @users = User.all.paginate(page: params[:page],per_page: Numero_risultati_per_pagina)
     end
     def listaAnnunci
-        @announcements = Announcement.all
+        @announcements = Announcement.all.paginate(page: params[:page],per_page: Numero_risultati_per_pagina)
     end
     
     def listaPrenotazioni
-        @bookings = Booking.all
+        @bookings = Booking.all.paginate(page: params[:page],per_page: Numero_risultati_per_pagina)
     end
     
     def faiAdmin
@@ -91,7 +92,7 @@ class Users::AdminsController < ApplicationController
     
     
     def annunciSegnalati
-        @announcements = Announcement.where("segnalato = 1")
+        @announcements = Announcement.where("segnalato = 1").paginate(page: params[:page],per_page: Numero_risultati_per_pagina)
     end
     def togliSegnalato
             @announcement = Announcement.find(params[:id])

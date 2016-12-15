@@ -1,85 +1,116 @@
-<style>
-      .map {
-        height: 300px;
-      }
-      .controls {
-        background-color: #fff;
-        border-radius: 2px;
-        border: 1px solid transparent;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-        box-sizing: border-box;
-        font-family: Roboto;
-        font-size: 15px;
-        font-weight: 300;
-        height: 29px;
-        margin-left: 17px;
-        margin-top: 10px;
-        outline: none;
-        padding: 0 11px 0 13px;
-        text-overflow: ellipsis;
-        width: 400px;
-      }
+<section class="main-content">			
+	<div class="row">
+					<div class="span6">					
+						<h4 class="title"><span class="text"><strong>Modifica</strong> annuncio</span></h4>
 
-      .controls:focus {
-        border-color: #4d90fe;
-      }
-</style>
-<%= form_for(:announcement, :url => modificaAnnuncio_update_path(:announcement), html: { method: "post", class: "form-stacked" }) do |f| %>
-<%= f.hidden_field "id", class:"control-label" %>
+
+  <%= form_for(@announcement, html: {class: "form-stacked"}) do |f| %>
+    <% if @announcement.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@announcement.errors.count, "error") %> prohibited this announcement from being saved:</h2>
   
- <center>
-          <table width="100%" border="1">
-            <tr>
-              <td colspan="1"><%= f.label "Titolo:" %></td>
-              <td colspan="1"><%= f.text_field :titolo, :required => true %></td>
-               <td style="width: 50%;" rowspan="8" valign="top" id="map">
-              </td>
-            </tr>
-            <tr>
-              <td colspan="1"><%= f.label "Categoria:" %></td>
-              <td colspan="1"><%= f.select :categoria, ['Auto','Accessori auto',
-                                  'Moto', 'Accessori moto',
-                                  'Attrezzature da lavoro', 'Informatica',
-                                  'Fotografia', 'Audio/video',
-                                  'Videogiochi', 'Telefonia',
-                                  'Mobili', 'Casalinghi',
-                                  'Elettrodomestici', 'Abbigliamento',
-                                  'Giardinaggio', 'Tutto per bambini',
-                                  'Animali', 'Cancelleria',
-                                  'Sport', 'Collezionismo'], include_blank: false %>
-</td>
-            </tr>
-            <tr>
-              <td colspan="1"><%= f.label "Foto:" %></td>
-              <td colspan="1"><%= f.file_field :foto, accept: 'image/png,image/gif,image/jpeg' %></td>
-            </tr>
-            <tr>
-              <td><%= f.label "Luogo:" %></td>
-              <td><%= f.text_field :luogo, :required => true %> </td>
-            </tr>
-            <tr>
-              <td colspan="2"><%= f.label "Descrizione:" %></td>
-            </tr>
-            <tr>
-              <td colspan="2"><%= f.text_area :descrizione, :rows => 10, style: 'width:100%;', :required => true %></td>
-            </tr>
-            
-            
-            <tr><td colspan="2">&nbsp;</td></tr>
-            <tr>
-              <td colspan="2" align="center"><%= f.submit "Invia" %> || <%= button_tag "Reset", type: :reset %></td>
-            </tr>
-          </table>
-          </center>
-<% end %>
+        <ul>
+        <% @announcement.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <fieldset>
+      <div class="control-group">
+				<%= f.label "Titolo", class:"control-label" %>
+			  <div class="controls">
+			    <%= f.text_field :titolo, class:"input-xlarge", :required => true %>
+			  </div>
+			</div>
+			<div class="control-group">
+				<%= f.label "Categoria", class:"control-label" %>
+			  <div class="controls">
+			    <%= f.select :categoria, ['Auto','Accessori auto',
+                                    'Moto', 'Accessori moto',
+                                    'Attrezzature da lavoro', 'Informatica',
+                                    'Fotografia', 'Audio/video',
+                                    'Videogiochi', 'Telefonia',
+                                    'Mobili', 'Casalinghi',
+                                    'Elettrodomestici', 'Abbigliamento',
+                                    'Giardinaggio', 'Tutto per bambini',
+                                    'Animali', 'Cancelleria',
+                                    'Sport', 'Collezionismo'], include_blank: false,  class:"input-xlarge" %>
+			  </div>
+			</div>
+			<div class="control-group">
+			  
+			  
+			  <label class="control-label">Foto</label>
+                <div class="btn btn-inverse input-group">
+                  <label class="input-group-btn ">
+                    <span>
+                        Scegli la foto <%= f.file_field :foto, accept: 'image/png,image/gif,image/jpeg', style: "display: none;" %>
+                    </span>
+                  </label>
+                  <input type="text" class="form-control" readonly>
+                </div> 
+			  
+			</div>
+			<div class="control-group">
+				<%= f.label "Luogo", class:"control-label" %>
+			  <div class="controls">
+			    <%= f.text_field :luogo,class:"input-xlarge" %>
+			  </div>
+			</div>
+			<div class="control-group">
+				<%= f.label "Descrizione", class:"control-label" %>
+			  <div class="controls">
+			    <%= f.text_area :descrizione, :rows => 5, style: 'width:90%;',class:"control-label", :required => true %>
+			  </div>
+			</div>
+			<div class="actions">
+			  <%= f.submit "Invia",tabindex:"9", class:"btn btn-inverse large", type:"submit", value:"Modifica annuncio" %> || 
+			  <%= button_tag "Reset", tabindex:"9", class:"btn btn-inverse large", type: :reset, value:"Reset" %>
+			</div>
+    </fieldset>
+    
+  <% end %>
 
+					</div>
+				<div class="span6">
+					<h4 class="title"><span class="text"><strong>Foto</strong></span></h4>
+					<%= link_to image_tag("#{@announcement.foto}", :alt => 'PRODOTTO'), image_path("#{@announcement.foto}"), class:"thumbnail_p", "data-fancybox-group" => "group1", :title => "#{@announcement.titolo}" %>
+        </div>
+      </div>
+  <div class="row">
+			<div class="span12">
+					<h4 class="title"><span class="text"><strong>MAPPA</strong></span></h4>
+    			<table height="90%" width="100%" class="controlss" style="margin-bottom: 10px;">
+            <td valign="top" id="map" ><%= image_tag("map-loader.gif") %></td>
+          </table>
+        </div>
+      </div>
+	</div>
+</section>
+			
 <script>
+		var vlat = <% if @announcement.latitude == nil %> 41.8919 <% else %> <%= @announcement.latitude %> <% end %>;
+		var vlng = <% if @announcement.longitude == nil %> 41.8919 <% else %> <%= @announcement.longitude %> <% end %>;
       function initMap() {
         //Posizione di default della mappa
-        var map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 41.8919, lng: 12.5113},
-          zoom: 13
-        });
+        map = new google.maps.Map(document.getElementById('map'), {
+				center: {
+					lat: vlat,
+					lng: vlng
+				},
+				zoom: 12
+			});
+			var marker = new google.maps.Marker({
+				position: {
+					lat: vlat,
+					lng: vlng
+				},
+				map: map,
+				title: 'Posizione attuale'
+			});
+			marker.setMap(map);
+		
         
         //Campo di input
         var input = document.getElementById('announcement_luogo');
@@ -123,3 +154,53 @@
       }
     </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBIKW0xq45fu2dqUZtBMqXps0SrSHJu0c&libraries=places&callback=initMap"async defer></script>
+
+
+<script>
+			$(function() {
+				$('#myTab a:first').tab('show');
+				$('#myTab a').click(function(e) {
+					e.preventDefault();
+					$(this).tab('show');
+				})
+			})
+			$(document).ready(function() {
+				$('.thumbnail_p').fancybox({
+					openEffect: 'none',
+					closeEffect: 'none'
+				});
+
+				$('#myCarousel-2').carousel({
+					interval: 2500
+				});
+			});
+		</script>
+<script>
+  $(function() {
+
+  // We can attach the `fileselect` event to all file inputs on the page
+  $(document).on('change', ':file', function() {
+    var input = $(this),
+        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+    input.trigger('fileselect', [numFiles, label]);
+  });
+
+  // We can watch for our custom `fileselect` event like this
+  $(document).ready( function() {
+      $(':file').on('fileselect', function(event, numFiles, label) {
+
+          var input = $(this).parents('.input-group').find(':text'),
+              log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+          if( input.length ) {
+              input.val(log);
+          } else {
+              if( log ) alert(log);
+          }
+
+      });
+  });
+  
+});
+</script>
